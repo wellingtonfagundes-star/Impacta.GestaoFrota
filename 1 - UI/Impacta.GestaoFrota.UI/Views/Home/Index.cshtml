@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Início";
+}
+
+<section class="welcome-panel text-center" aria-labelledby="welcome-title">
+    <div class="welcome-art" aria-hidden="true">
+        <div class="welcome-art-glow"></div>
+        <div class="welcome-art-road"></div>
+        <div class="welcome-art-vehicle">
+            <i class="bi bi-truck-front-fill"></i>
+        </div>
+        <span class="welcome-art-route route-one"><i class="bi bi-geo-alt-fill"></i></span>
+        <span class="welcome-art-route route-two"><i class="bi bi-geo-alt-fill"></i></span>
+        <span class="welcome-art-star star-one"><i class="bi bi-stars"></i></span>
+        <span class="welcome-art-star star-two"><i class="bi bi-circle-fill"></i></span>
+    </div>
+
+    <p class="welcome-kicker"><i class="bi bi-sun-fill me-2"></i>Bem-vindo</p>
+    <h1 id="welcome-title" class="welcome-title">Impacta <span>Gestão de Frotas</span></h1>
+    <p class="welcome-subtitle">Mobilidade inteligente para conectar pessoas, veículos e resultados.</p>
+
+    <div class="welcome-divider" aria-hidden="true">
+        <span></span><i class="bi bi-truck-front-fill"></i><span></span>
+    </div>
+
+    <a class="btn btn-primary welcome-action" asp-controller="Home" asp-action="Privacy">
+        <i class="bi bi-arrow-right-circle me-2"></i>Explorar a plataforma
+    </a>
+</div>

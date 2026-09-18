@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/1 - UI/">
+    <Project Path="1 - UI/Impacta.GestaoFrota.UI/Impacta.GestaoFrota.UI.csproj" />
+  </Folder>
+  <Folder Name="/2 - Application/">
+    <Project Path="2 - Application/Impacta.GestaoFrota.Application/Impacta.GestaoFrota.Application.csproj" />
+  </Folder>
+  <Folder Name="/3 - Domain/">
+    <Project Path="3 - Domain/Impacta.GestaoFrota.Domain/Impacta.GestaoFrota.Domain.csproj" />
+  </Folder>
+  <Folder Name="/4 - Data/">
+    <Project Path="4 - Data/Impacta.GestaoFrota.Data/Impacta.GestaoFrota.Data.csproj" />
+  </Folder>
+</Solution>

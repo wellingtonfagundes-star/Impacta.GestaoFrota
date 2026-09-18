@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Impacta.GestaoFrota.UI</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Impacta.GestaoFrota.UI.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="app-header">
+        <nav class="navbar navbar-expand-lg app-navbar">
+            <div class="container-fluid app-container">
+                <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark"><i class="bi bi-truck-front-fill"></i></span>
+                    <span>
+                        <strong>Impacta</strong>
+                        <small>Gestão de Frota</small>
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation"
+                        aria-expanded="false" aria-label="Alternar navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavigation">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                           @*<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-grid-1x2-fill me-1"></i>Início
+                            </a>*@ 
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="cadastrosMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-folder2-open me-1"></i>Cadastros
+                            </a>
+                            <ul class="dropdown-menu app-dropdown" aria-labelledby="cadastrosMenu">
+                                <li><h6 class="dropdown-header">Cadastros principais</h6></li>
+                                <li><a class="dropdown-item" asp-controller="Veiculos" asp-action="Index"><i class="bi bi-car-front-fill"></i>Veículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Caracteristicas" asp-action="Index"><i class="bi bi-list-check"></i>Características</a></li>
+                                <li><a class="dropdown-item" asp-controller="Funcionarios" asp-action="Index"><i class="bi bi-person-badge-fill"></i>Funcionários</a></li>
+                                <li><a class="dropdown-item" asp-controller="Pessoas" asp-action="Index"><i class="bi bi-people-fill"></i>Pessoas</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="parametrizacoesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-sliders me-1"></i>Parametrizações
+                            </a>
+                            <ul class="dropdown-menu app-dropdown" aria-labelledby="parametrizacoesMenu">
+                                <li><h6 class="dropdown-header">Configurações da frota</h6></li>
+                                <li><a class="dropdown-item" asp-controller="Locais" asp-action="Index"><i class="bi bi-geo-alt-fill"></i>Locais</a></li>
+                                <li><a class="dropdown-item" asp-controller="TipoEvento" asp-action="Index"><i class="bi bi-calendar-event-fill"></i>Tipo Evento</a></li>
+                                <li><a class="dropdown-item" asp-controller="StatusFrota" asp-action="Index"><i class="bi bi-activity"></i>Status Frota</a></li>
+                                <li><a class="dropdown-item" asp-controller="CaracteristicasVeiculos" asp-action="Index"><i class="bi bi-diagram-3-fill"></i>Características Veículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="StatusVeiculos" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i>Status Veículos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="navbar-status">
+                        <span class="status-dot"></span>
+                        <span>Operação online</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="app-shell">
+        <main role="main" class="app-container page-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="app-footer">
+        <div class="app-container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+            <span>&copy; 2026 Impacta Gestão de Frota</span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Política de privacidade</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
