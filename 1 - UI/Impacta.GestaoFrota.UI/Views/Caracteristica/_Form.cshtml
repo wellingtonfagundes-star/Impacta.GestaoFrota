@@ -1,0 +1,21 @@
+@model Impacta.GestaoFrota.Application.ViewModel.CaracteristicaViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<input asp-for="IdCaracteristica" type="hidden" />
+
+<div class="mb-3">
+    <label asp-for="Descricao" class="form-label">Descrição</label>
+    <input asp-for="Descricao" class="form-control" placeholder="Informe a descrição da característica" autofocus />
+    <span asp-validation-for="Descricao" class="text-danger"></span>
+</div>
+
+<div class="form-check form-switch mb-3">
+    <input asp-for="Opcional" class="form-check-input" />
+    <label asp-for="Opcional" class="form-check-label">Característica opcional</label>
+</div>
+
+<div class="mb-0">
+    <label asp-for="Obs" class="form-label">Observação</label>
+    <textarea asp-for="Obs" class="form-control" rows="4" placeholder="Inclua uma observação, se necessário"></textarea>
+    <span asp-validation-for="Obs" class="text-danger"></span>
+</div>

@@ -1,0 +1,246 @@
+@model IEnumerable<Impacta.GestaoFrota.Application.ViewModel.CaracteristicaViewModel>
+
+@{
+    ViewData["Title"] = "Características";
+    var page = (int)(ViewBag.Page ?? 1);
+    var pageSize = (int)(ViewBag.PageSize ?? 10);
+    var totalRegistros = (int)(ViewBag.TotalRegistros ?? 0);
+    var totalPaginas = (int)(ViewBag.TotalPaginas ?? 1);
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-folder2-open me-2"></i>Cadastros</p>
+            <h1 id="page-title" class="crud-title">Características</h1>
+            <p class="crud-subtitle">Gerencie as características disponíveis para os veículos da frota.</p>
+        </div>
+        <a class="btn btn-primary crud-action" href="#" data-modal-url="@Url.Action("Create")">
+            <i class="bi bi-plus-circle me-2"></i>Nova característica
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success crud-alert" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>@successMessage
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger crud-alert" role="alert">
+            <i class="bi bi-exclamation-circle-fill me-2"></i>@errorMessage
+        </div>
+    }
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div>
+                <span class="crud-card-icon"><i class="bi bi-list-check"></i></span>
+                <span>Características cadastradas</span>
+            </div>
+            <span class="crud-count">@totalRegistros registros</span>
+        </div>
+
+        @if (Model is null || !Model.Any())
+        {
+            <div class="crud-empty">
+                <i class="bi bi-inbox"></i>
+                <h2>Nenhuma característica cadastrada</h2>
+                <p>Comece adicionando uma nova característica para a sua frota.</p>
+                <a class="btn btn-outline-primary" href="#" data-modal-url="@Url.Action("Create")">Cadastrar característica</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table crud-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Opcional</th>
+                            <th scope="col">Observação</th>
+                            <th scope="col" class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@item.Descricao</td>
+                                <td>
+                                    @if (item.Opcional == true)
+                                    {
+                                        <span class="badge text-bg-info">Sim</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge text-bg-light">Não</span>
+                                    }
+                                </td>
+                                <td class="text-muted">@(string.IsNullOrWhiteSpace(item.Obs) ? "—" : item.Obs)</td>
+                                <td class="text-end">
+                                    <div class="crud-row-actions">
+                                        <a class="btn btn-sm btn-outline-primary" href="#" data-modal-url="@Url.Action("Edit", new { id = item.IdCaracteristica })" title="Editar">
+                                            <i class="bi bi-pencil-square"></i><span class="visually-hidden">Editar</span>
+                                        </a>
+                                        <a class="btn btn-sm btn-outline-danger" href="#" data-modal-url="@Url.Action("Delete", new { id = item.IdCaracteristica })" title="Excluir">
+                                            <i class="bi bi-trash3"></i><span class="visually-hidden">Excluir</span>
+                                        </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+<div id="operationMessage" class="position-fixed top-0 end-0 p-3" style="z-index: 1080;"></div>
+
+            @if (totalPaginas > 1)
+            {
+                <nav class="p-3 border-top" aria-label="Paginação de características">
+                    <ul class="pagination justify-content-end mb-0">
+                        <li class="page-item @(page == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@(page - 1)" asp-route-pageSize="@pageSize">Anterior</a>
+                        </li>
+                        @for (var pagina = 1; pagina <= totalPaginas; pagina++)
+                        {
+                            <li class="page-item @(pagina == page ? "active" : "")">
+                                <a class="page-link" asp-action="Index" asp-route-page="@pagina" asp-route-pageSize="@pageSize">@pagina</a>
+                            </li>
+                        }
+                        <li class="page-item @(page == totalPaginas ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@(page + 1)" asp-route-pageSize="@pageSize">Próxima</a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        }
+    </div>
+</section>
+
+<div class="modal fade" id="caracteristicaModal" tabindex="-1" aria-labelledby="caracteristicaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="caracteristicaModalContent"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const modalElement = document.getElementById('caracteristicaModal');
+            const modalContent = document.getElementById('caracteristicaModalContent');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+            document.querySelectorAll('.crud-alert').forEach(alert => {
+                setTimeout(() => {
+                    bootstrap.Alert.getOrCreateInstance(alert).close();
+                }, 4000);
+            });
+
+            async function loadModal(url) {
+                modalContent.innerHTML = '<div class="modal-body text-center p-5"><span class="spinner-border text-primary" role="status"></span></div>';
+                modal.show();
+
+                const response = await fetch(url, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                if (!response.ok) {
+                    modalContent.innerHTML = '<div class="modal-body"><div class="alert alert-danger mb-0">Não foi possível carregar o formulário.</div></div>';
+                    return;
+                }
+
+                modalContent.innerHTML = await response.text();
+                bindForm();
+                parseValidation();
+            }
+
+            function parseValidation() {
+                const form = modalContent.querySelector('[data-modal-form]');
+                if (form && window.jQuery && $.validator && $.validator.unobtrusive) {
+                    $.validator.unobtrusive.parse(form);
+                }
+            }
+
+            function bindForm() {
+                const form = modalContent.querySelector('[data-modal-form]');
+                const deleteForm = modalContent.querySelector('[data-delete-form]');
+
+                if (deleteForm) {
+                    deleteForm.addEventListener('submit', async event => {
+                        event.preventDefault();
+                        const button = deleteForm.querySelector('button[type="submit"]');
+                        button.disabled = true;
+
+                        const response = await fetch(deleteForm.action, {
+                            method: 'POST',
+                            body: new FormData(deleteForm),
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                        });
+                        const result = await response.json();
+
+                        modal.hide();
+                        showOperationMessage(result.success ? 'success' : 'danger', result.message);
+
+                        if (result.success) {
+                            setTimeout(() => window.location.reload(), 4000);
+                        } else {
+                            button.disabled = false;
+                        }
+                    });
+                    return;
+                }
+
+                if (!form) return;
+
+                form.addEventListener('submit', async event => {
+                    event.preventDefault();
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                        return;
+                    }
+
+            function showOperationMessage(type, message) {
+                const container = document.getElementById('operationMessage');
+                container.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>`;
+
+                setTimeout(() => {
+                    const alert = container.querySelector('.alert');
+                    if (alert) bootstrap.Alert.getOrCreateInstance(alert).close();
+                }, 4000);
+            }
+
+                    modalContent.innerHTML = await response.text();
+                    bindForm();
+                    parseValidation();
+
+                    const validationError = modalContent.querySelector('.validation-summary-errors');
+                    if (validationError && validationError.innerText.trim()) {
+                        showOperationMessage('danger', validationError.innerText.trim());
+                    }
+                });
+            }
+
+            document.querySelectorAll('[data-modal-url]').forEach(button => {
+                button.addEventListener('click', event => {
+                    event.preventDefault();
+                    loadModal(button.dataset.modalUrl);
+                });
+            });
+        })();
+    </script>
+}

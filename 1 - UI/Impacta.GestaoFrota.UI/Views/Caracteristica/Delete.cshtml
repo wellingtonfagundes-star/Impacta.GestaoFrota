@@ -1,0 +1,42 @@
+@model Impacta.GestaoFrota.Application.ViewModel.CaracteristicaViewModel
+
+@{
+    ViewData["Title"] = "Excluir característica";
+}
+
+<section class="crud-page narrow-crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker text-danger"><i class="bi bi-trash3 me-2"></i>Características</p>
+            <h1 id="page-title" class="crud-title">Excluir característica</h1>
+            <p class="crud-subtitle">Confirme a remoção do cadastro abaixo.</p>
+        </div>
+    </div>
+
+    <div class="crud-form-card delete-card">
+        <div class="delete-warning">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <div>
+                <strong>Esta ação não pode ser desfeita.</strong>
+                <p class="mb-0">A característica será removida permanentemente.</p>
+            </div>
+        </div>
+
+        <dl class="row delete-details mb-4">
+            <dt class="col-sm-4">Descrição</dt>
+            <dd class="col-sm-8">@Model.Descricao</dd>
+            <dt class="col-sm-4">Opcional</dt>
+            <dd class="col-sm-8">@(Model.Opcional == true ? "Sim" : "Não")</dd>
+            <dt class="col-sm-4">Observação</dt>
+            <dd class="col-sm-8">@(string.IsNullOrWhiteSpace(Model.Obs) ? "—" : Model.Obs)</dd>
+        </dl>
+
+        <form asp-action="Delete" method="post">
+            <input asp-for="IdCaracteristica" type="hidden" />
+            <div class="crud-form-actions">
+                <a class="btn btn-light" asp-action="Index"><i class="bi bi-arrow-left me-2"></i>Cancelar</a>
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash3 me-2"></i>Excluir característica</button>
+            </div>
+        </form>
+    </div>
+</section>

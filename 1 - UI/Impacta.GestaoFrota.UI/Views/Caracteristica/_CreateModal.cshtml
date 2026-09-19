@@ -1,0 +1,19 @@
+@model Impacta.GestaoFrota.Application.ViewModel.CaracteristicaViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="caracteristicaModalLabel">
+        <i class="bi bi-plus-circle me-2"></i>Nova característica
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+</div>
+<form asp-action="Create" method="post" data-modal-form>
+    <div class="modal-body">
+        <partial name="_Form" model="Model" />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check2-circle me-2"></i>Salvar característica
+        </button>
+    </div>
+</form>

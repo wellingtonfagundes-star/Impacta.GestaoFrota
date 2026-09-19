@@ -1,7 +1,24 @@
+using Impacta.GestaoFrota.Application.AutoMapper;
+using Impacta.GestaoFrota.Application.Interfaces;
+using Impacta.GestaoFrota.Application.Services;
+using Impacta.GestaoFrota.Data.Context;
+using Impacta.GestaoFrota.Data.Repository;
+using Impacta.GestaoFrota.Domain.Interfaces.Repository;
+using Impacta.GestaoFrota.Domain.Interfaces.Services;
+using Impacta.GestaoFrota.Domain.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<FrotaContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Frota")
+        ?? throw new InvalidOperationException("A connection string 'Frota' não foi configurada.")));
+builder.Services.AddAutoMapper(typeof(CaracteristicaProfile).Assembly);
+builder.Services.AddScoped<ICaracteristicaRepository, CaracteristicasRepository>();
+builder.Services.AddScoped<ICaracteristicaService, CaracteristicaService>();
+builder.Services.AddScoped<ICaracteristicaAppService, CaracteristicaAppService>();
 
 var app = builder.Build();
 
