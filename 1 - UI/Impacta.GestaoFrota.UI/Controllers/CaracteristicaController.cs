@@ -13,12 +13,21 @@ namespace Impacta.GestaoFrota.UI.Controllers
             _caracteristicaAppService = caracteristicaAppService;
         }
 
-        public IActionResult Index(int page = 1, int pageSize = 10)
+        public IActionResult Index(int page = 1, int pageSize = 10, string search = "")
         {
             page = Math.Max(page, 1);
             pageSize = pageSize is 5 or 10 or 25 or 50 ? pageSize : 10;
 
             var todas = _caracteristicaAppService.ObterTodos().ToList();
+
+            // Aplicar filtro de pesquisa
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                todas = todas
+                    .Where(c => c.Descricao.Contains(search, StringComparison.CurrentCultureIgnoreCase))
+                    .ToList();
+            }
+
             var totalPaginas = Math.Max((int)Math.Ceiling(todas.Count / (double)pageSize), 1);
             page = Math.Min(page, totalPaginas);
 
@@ -26,6 +35,7 @@ namespace Impacta.GestaoFrota.UI.Controllers
             ViewBag.PageSize = pageSize;
             ViewBag.TotalRegistros = todas.Count;
             ViewBag.TotalPaginas = totalPaginas;
+            ViewBag.Search = search;
 
             return View(todas.Skip((page - 1) * pageSize).Take(pageSize));
         }
@@ -44,17 +54,33 @@ namespace Impacta.GestaoFrota.UI.Controllers
         public IActionResult Create(CaracteristicaViewModel viewModel)
         {
             if (!ModelState.IsValid)
+            {
+                if (IsAjaxRequest())
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors);
+                    var errorMessage = string.Join(", ", errors.Select(e => e.ErrorMessage));
+                    return Json(new { success = false, message = errorMessage });
+                }
+
                 return IsAjaxRequest()
                     ? PartialView("_CreateModal", viewModel)
                     : View(viewModel);
+            }
 
             if (_caracteristicaAppService.Adicionar(viewModel))
             {
+                if (IsAjaxRequest())
+                    return Json(new { success = true, message = "Característica cadastrada com sucesso." });
+
                 TempData["SuccessMessage"] = "Característica cadastrada com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
 
-            ModelState.AddModelError(string.Empty, "Não foi possível cadastrar a característica.");
+            var errorMsg = "Não foi possível cadastrar a característica.";
+            if (IsAjaxRequest())
+                return Json(new { success = false, message = errorMsg });
+
+            ModelState.AddModelError(string.Empty, errorMsg);
             return IsAjaxRequest()
                 ? PartialView("_CreateModal", viewModel)
                 : View(viewModel);
@@ -81,17 +107,33 @@ namespace Impacta.GestaoFrota.UI.Controllers
                 return BadRequest();
 
             if (!ModelState.IsValid)
+            {
+                if (IsAjaxRequest())
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors);
+                    var errorMessage = string.Join(", ", errors.Select(e => e.ErrorMessage));
+                    return Json(new { success = false, message = errorMessage });
+                }
+
                 return IsAjaxRequest()
                     ? PartialView("_EditModal", viewModel)
                     : View(viewModel);
+            }
 
             if (_caracteristicaAppService.Atualizar(viewModel))
             {
+                if (IsAjaxRequest())
+                    return Json(new { success = true, message = "Característica atualizada com sucesso." });
+
                 TempData["SuccessMessage"] = "Característica atualizada com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
 
-            ModelState.AddModelError(string.Empty, "Não foi possível atualizar a característica.");
+            var errorMsg = "Não foi possível atualizar a característica.";
+            if (IsAjaxRequest())
+                return Json(new { success = false, message = errorMsg });
+
+            ModelState.AddModelError(string.Empty, errorMsg);
             return IsAjaxRequest()
                 ? PartialView("_EditModal", viewModel)
                 : View(viewModel);

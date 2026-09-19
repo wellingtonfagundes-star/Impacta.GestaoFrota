@@ -6,6 +6,7 @@
     var pageSize = (int)(ViewBag.PageSize ?? 10);
     var totalRegistros = (int)(ViewBag.TotalRegistros ?? 0);
     var totalPaginas = (int)(ViewBag.TotalPaginas ?? 1);
+    var search = (string)(ViewBag.Search ?? "");
 }
 
 <section class="crud-page" aria-labelledby="page-title">
@@ -41,6 +42,30 @@
                 <span>Características cadastradas</span>
             </div>
             <span class="crud-count">@totalRegistros registros</span>
+        </div>
+
+        <div class="card-body border-bottom">
+            <form asp-action="Index" asp-route-pageSize="@pageSize" method="get" class="d-flex gap-2">
+                <div class="flex-grow-1">
+                    <input type="text" 
+                           name="search" 
+                           class="form-control form-control-sm" 
+                           placeholder="Pesquisar características..." 
+                           value="@search"
+                           aria-label="Pesquisar características">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm" title="Pesquisar">
+                    <i class="bi bi-search"></i>
+                    <span class="ms-1 d-none d-md-inline">Pesquisar</span>
+                </button>
+                @if (!string.IsNullOrWhiteSpace(search))
+                {
+                    <a asp-action="Index" asp-route-pageSize="@pageSize" class="btn btn-outline-secondary btn-sm" title="Limpar pesquisa">
+                        <i class="bi bi-x-circle"></i>
+                        <span class="ms-1 d-none d-md-inline">Limpar</span>
+                    </a>
+                }
+            </form>
         </div>
 
         @if (Model is null || !Model.Any())
@@ -104,16 +129,16 @@
                 <nav class="p-3 border-top" aria-label="Paginação de características">
                     <ul class="pagination justify-content-end mb-0">
                         <li class="page-item @(page == 1 ? "disabled" : "")">
-                            <a class="page-link" asp-action="Index" asp-route-page="@(page - 1)" asp-route-pageSize="@pageSize">Anterior</a>
+                            <a class="page-link" asp-action="Index" asp-route-page="@(page - 1)" asp-route-pageSize="@pageSize" asp-route-search="@search">Anterior</a>
                         </li>
                         @for (var pagina = 1; pagina <= totalPaginas; pagina++)
                         {
                             <li class="page-item @(pagina == page ? "active" : "")">
-                                <a class="page-link" asp-action="Index" asp-route-page="@pagina" asp-route-pageSize="@pageSize">@pagina</a>
+                                <a class="page-link" asp-action="Index" asp-route-page="@pagina" asp-route-pageSize="@pageSize" asp-route-search="@search">@pagina</a>
                             </li>
                         }
                         <li class="page-item @(page == totalPaginas ? "disabled" : "")">
-                            <a class="page-link" asp-action="Index" asp-route-page="@(page + 1)" asp-route-pageSize="@pageSize">Próxima</a>
+                            <a class="page-link" asp-action="Index" asp-route-page="@(page + 1)" asp-route-pageSize="@pageSize" asp-route-search="@search">Próxima</a>
                         </li>
                     </ul>
                 </nav>
@@ -167,6 +192,20 @@
                 }
             }
 
+            function showOperationMessage(type, message) {
+                const container = document.getElementById('operationMessage');
+                container.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">
+                    <i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'exclamation-circle-fill'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>`;
+
+                setTimeout(() => {
+                    const alert = container.querySelector('.alert');
+                    if (alert) bootstrap.Alert.getOrCreateInstance(alert).close();
+                }, 4000);
+            }
+
             function bindForm() {
                 const form = modalContent.querySelector('[data-modal-form]');
                 const deleteForm = modalContent.querySelector('[data-delete-form]');
@@ -206,31 +245,17 @@
                         headers: { 'X-Requested-With': 'XMLHttpRequest' }
                     });
 
-                    if (response.redirected) {
-                        window.location.href = response.url;
-                        return;
-                    }
+                    const result = await response.json();
 
-            function showOperationMessage(type, message) {
-                const container = document.getElementById('operationMessage');
-                container.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-                </div>`;
-
-                setTimeout(() => {
-                    const alert = container.querySelector('.alert');
-                    if (alert) bootstrap.Alert.getOrCreateInstance(alert).close();
-                }, 4000);
-            }
-
-                    modalContent.innerHTML = await response.text();
-                    bindForm();
-                    parseValidation();
-
-                    const validationError = modalContent.querySelector('.validation-summary-errors');
-                    if (validationError && validationError.innerText.trim()) {
-                        showOperationMessage('danger', validationError.innerText.trim());
+                    // Se é sucesso, fechar modal e mostrar mensagem
+                    if (result.success) {
+                        modal.hide();
+                        showOperationMessage('success', result.message);
+                        // Recarregar a página após alguns segundos
+                        setTimeout(() => window.location.reload(), 4000);
+                    } else {
+                        // Se é erro, mostrar mensagem de erro
+                        showOperationMessage('danger', result.message);
                     }
                 });
             }
