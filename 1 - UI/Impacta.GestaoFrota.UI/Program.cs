@@ -25,6 +25,9 @@ builder.Services.AddScoped<IVeiculoAppService, VeiculoAppService>();
 builder.Services.AddScoped<ICaracteristicaVeiculoRepository, CaracteristicaVeiculoRepository>();
 builder.Services.AddScoped<ICaracteristicaVeiculoService, CaracteristicaVeiculoService>();
 builder.Services.AddScoped<ICaracteristicaVeiculoAppService, CaracteristicaVeiculoAppService>();
+builder.Services.AddScoped<IStatusFrotaRepository, StatusFrotaRepository>();
+builder.Services.AddScoped<IStatusFrotaService, StatusFrotaService>();
+builder.Services.AddScoped<IStatusFrotaAppService, StatusFrotaAppService>();
 
 var app = builder.Build();
 

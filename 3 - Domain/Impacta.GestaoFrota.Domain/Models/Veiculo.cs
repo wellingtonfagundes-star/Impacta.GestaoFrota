@@ -41,7 +41,7 @@ public partial class Veiculo
 
     public virtual ICollection<CaracteristicaVeiculo> CaracteristicaVeiculos { get; set; } = new List<CaracteristicaVeiculo>();
 
-    public virtual StatusFrotum IdStatusFrotaNavigation { get; set; } = null!;
+    public virtual StatusFrota IdStatusFrotaNavigation { get; set; } = null!;
 
     public virtual ICollection<RetornoVeiculo> RetornoVeiculos { get; set; } = new List<RetornoVeiculo>();
 

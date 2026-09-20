@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Impacta.GestaoFrota.Domain.Models;
 
-public partial class StatusFrotum
+public partial class StatusFrota
 {
     public int IdStatusFrota { get; set; }
 

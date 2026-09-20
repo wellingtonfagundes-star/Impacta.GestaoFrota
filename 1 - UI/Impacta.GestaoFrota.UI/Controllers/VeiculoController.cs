@@ -7,18 +7,21 @@ namespace Impacta.GestaoFrota.UI.Controllers
     public class VeiculoController : Controller
     {
         private readonly IVeiculoAppService _veiculoAppService;
-
-        public VeiculoController(IVeiculoAppService veiculoAppService)
+        private readonly IStatusFrotaAppService _statusFrotaService;
+        public VeiculoController(IVeiculoAppService veiculoAppService,IStatusFrotaAppService statusFrotaService)
         {
             _veiculoAppService = veiculoAppService;
+            _statusFrotaService = statusFrotaService;
         }
 
+        List<StatusFrotaViewModel> ListaStatusFrota = new List<StatusFrotaViewModel>();
         public IActionResult Index(int page = 1, int pageSize = 10, string search = "")
         {
             page = Math.Max(page, 1);
             pageSize = pageSize is 5 or 10 or 25 or 50 ? pageSize : 10;
 
             var todos = _veiculoAppService.ObterTodos().ToList();
+            ListaStatusFrota = _statusFrotaService.ObterTodos().ToList();
 
             // Aplicar filtro de pesquisa
             if (!string.IsNullOrWhiteSpace(search))
@@ -38,13 +41,17 @@ namespace Impacta.GestaoFrota.UI.Controllers
             ViewBag.TotalRegistros = todos.Count;
             ViewBag.TotalPaginas = totalPaginas;
             ViewBag.Search = search;
+            //ViewBag.StatusFrota = statusFrota.ToList();
 
             return View(todos.Skip((page - 1) * pageSize).Take(pageSize));
+
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            PopularDropdowns();
+
             if (IsAjaxRequest())
                 return PartialView("_CreateModal", new VeiculoViewModel());
 
@@ -64,6 +71,7 @@ namespace Impacta.GestaoFrota.UI.Controllers
                     return Json(new { success = false, message = errorMessage });
                 }
 
+                PopularDropdowns();
                 return IsAjaxRequest()
                     ? PartialView("_CreateModal", viewModel)
                     : View(viewModel);
@@ -82,6 +90,7 @@ namespace Impacta.GestaoFrota.UI.Controllers
             if (IsAjaxRequest())
                 return Json(new { success = false, message = errorMsg });
 
+            PopularDropdowns();
             ModelState.AddModelError(string.Empty, errorMsg);
             return IsAjaxRequest()
                 ? PartialView("_CreateModal", viewModel)
@@ -94,6 +103,8 @@ namespace Impacta.GestaoFrota.UI.Controllers
             var viewModel = _veiculoAppService.ObterPorId(id);
             if (viewModel is null)
                 return NotFound();
+
+            PopularDropdowns();
 
             if (IsAjaxRequest())
                 return PartialView("_EditModal", viewModel);
@@ -117,6 +128,7 @@ namespace Impacta.GestaoFrota.UI.Controllers
                     return Json(new { success = false, message = errorMessage });
                 }
 
+                PopularDropdowns();
                 return IsAjaxRequest()
                     ? PartialView("_EditModal", viewModel)
                     : View(viewModel);
@@ -135,6 +147,7 @@ namespace Impacta.GestaoFrota.UI.Controllers
             if (IsAjaxRequest())
                 return Json(new { success = false, message = errorMsg });
 
+            PopularDropdowns();
             ModelState.AddModelError(string.Empty, errorMsg);
             return IsAjaxRequest()
                 ? PartialView("_EditModal", viewModel)
@@ -182,6 +195,12 @@ namespace Impacta.GestaoFrota.UI.Controllers
                 Request.Headers["X-Requested-With"].ToString(),
                 "XMLHttpRequest",
                 StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void PopularDropdowns()
+        {
+            var statusFrota = _statusFrotaService.ObterTodos().ToList();
+            ViewBag.StatusFrota = statusFrota;
         }
     }
 }

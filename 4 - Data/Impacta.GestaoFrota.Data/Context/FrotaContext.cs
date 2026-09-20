@@ -19,7 +19,7 @@ public class FrotaContext : DbContext
     public virtual DbSet<Pessoa> Pessoas { get; set; }
     public virtual DbSet<ReservaVeiculo> ReservaVeiculos { get; set; }
     public virtual DbSet<RetornoVeiculo> RetornoVeiculos { get; set; }
-    public virtual DbSet<StatusFrotum> StatusFrota { get; set; }
+    public virtual DbSet<StatusFrota> StatusFrota { get; set; }
     public virtual DbSet<StatusVeiculo> StatusVeiculos { get; set; }
     public virtual DbSet<TipoEvento> TipoEventos { get; set; }
     public virtual DbSet<Veiculo> Veiculos { get; set; }
