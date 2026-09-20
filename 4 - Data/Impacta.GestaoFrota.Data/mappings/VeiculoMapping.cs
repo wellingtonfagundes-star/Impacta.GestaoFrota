@@ -27,6 +27,12 @@ public class VeiculoMapping : IEntityTypeConfiguration<Veiculo>
         builder.Property(e => e.IdVeiculo)
             .UseIdentityAlwaysColumn()
             .HasColumnName("id_veiculo");
+        builder.Property(e => e.Placa)
+            .HasMaxLength(10)
+            .HasColumnName("placa");
+        builder.Property(e => e.Nome)
+            .HasMaxLength(100)
+            .HasColumnName("nome");
         builder.Property(e => e.AnoModelo).HasColumnName("ano_modelo");
         builder.Property(e => e.Chassi)
             .HasMaxLength(25)

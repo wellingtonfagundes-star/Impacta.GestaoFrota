@@ -88,7 +88,7 @@ namespace Impacta.GestaoFrota.UI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var errorMsg = "Não foi possível cadastrar a parametrização.";
+            var errorMsg = "Não foi possível cadastrar parametrização já existente.";
             if (IsAjaxRequest())
                 return Json(new { success = false, message = errorMsg });
 
@@ -194,14 +194,16 @@ namespace Impacta.GestaoFrota.UI.Controllers
         private void PopularDropdowns()
         {
             var veiculos = _veiculoAppService.ObterTodos()
+                .OrderBy(v => v.Placa)
                 .Select(v => new SelectListItem
                 {
                     Value = v.IdVeiculo.ToString(),
-                    Text = $"{v.Placa} - {v.Fabricante} ({v.AnoModelo})"
+                    Text = $"{v.Placa} | {v.Nome} | {v.Fabricante} | {v.AnoModelo}"
                 })
                 .ToList();
 
             var caracteristicas = _caracteristicaAppService.ObterTodos()
+                .OrderBy(c => c.Descricao)
                 .Select(c => new SelectListItem
                 {
                     Value = c.IdCaracteristica.ToString(),

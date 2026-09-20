@@ -1,10 +1,10 @@
-using System.Data;
-using System.Linq.Expressions;
 using Dapper;
 using Impacta.GestaoFrota.Data.Context;
 using Impacta.GestaoFrota.Domain.Interfaces.Repository;
 using Impacta.GestaoFrota.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Linq.Expressions;
 
 namespace Impacta.GestaoFrota.Data.Repository;
 

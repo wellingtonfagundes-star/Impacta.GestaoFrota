@@ -20,6 +20,7 @@ public class VeiculoRepository : Repository<Veiculo>, IVeiculoRepository
         const string sql = """
             SELECT id_veiculo AS IdVeiculo,
                    placa AS Placa,
+                   nome AS Nome,
                    renavam AS Renavam,
                    chassi AS Chassi,
                    fabricante AS Fabricante,
@@ -47,6 +48,7 @@ public class VeiculoRepository : Repository<Veiculo>, IVeiculoRepository
         const string sql = """
             SELECT id_veiculo AS IdVeiculo,
                    placa AS Placa,
+                   nome AS Nome,
                    renavam AS Renavam,
                    chassi AS Chassi,
                    fabricante AS Fabricante,
@@ -79,6 +81,7 @@ public class VeiculoRepository : Repository<Veiculo>, IVeiculoRepository
         const string sql = """
             SELECT id_veiculo AS IdVeiculo,
                    placa AS Placa,
+                   nome AS Nome,
                    renavam AS Renavam,
                    chassi AS Chassi,
                    fabricante AS Fabricante,

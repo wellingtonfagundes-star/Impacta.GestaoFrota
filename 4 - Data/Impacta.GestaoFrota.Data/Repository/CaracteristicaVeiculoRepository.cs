@@ -25,10 +25,46 @@ public class CaracteristicaVeiculoRepository : Repository<CaracteristicaVeiculo>
                    cv.data_criacao AS DataCriacao,
                    cv.data_ult_alteracao AS DataUltAlteracao
             FROM frota.caracteristica_veiculo cv
+            INNER JOIN frota.veiculos veic ON veic.id_veiculo = cv.id_veiculo
+            INNER JOIN frota.caracteristicas carac ON carac.id_caracteristica = cv.id_caracteristica
             ORDER BY cv.id_veiculo, cv.id_caracteristica;
             """;
 
         return Query(sql);
+    }
+
+    public IEnumerable<CaracteristicaVeiculoDto> ObterTodosComDescricoes()
+    {
+        const string sql = """
+            SELECT cv.id_veiculo AS IdVeiculo,
+                   cv.id_caracteristica AS IdCaracteristica,
+                   cv.valor AS Valor,
+                   cv.comentario AS Comentario,
+                   cv.data_criacao AS DataCriacao,
+                   cv.data_ult_alteracao AS DataUltAlteracao,
+                   CONCAT(veic.placa, ' | ', veic.nome, ' | ', veic.fabricante, ' | ', veic.ano_modelo) AS VeiculoDescricao,
+                   carac.descricao AS CaracteristicaDescricao
+            FROM frota.caracteristica_veiculo cv
+            INNER JOIN frota.veiculos veic ON veic.id_veiculo = cv.id_veiculo
+            INNER JOIN frota.caracteristicas carac ON carac.id_caracteristica = cv.id_caracteristica
+            ORDER BY cv.id_veiculo, cv.id_caracteristica;
+            """;
+
+        var connection = db.Database.GetDbConnection();
+        var shouldClose = connection.State == ConnectionState.Closed;
+
+        try
+        {
+            if (shouldClose)
+                connection.Open();
+
+            return connection.Query<CaracteristicaVeiculoDto>(sql).AsList();
+        }
+        finally
+        {
+            if (shouldClose)
+                connection.Close();
+        }
     }
 
     public CaracteristicaVeiculo ObterPorIds(int idVeiculo, int idCaracteristica)

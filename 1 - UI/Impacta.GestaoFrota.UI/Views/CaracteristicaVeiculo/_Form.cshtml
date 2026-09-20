@@ -8,6 +8,8 @@
                     name="IdVeiculo" 
                     class="form-select" 
                     required 
+                    data-val="true"
+                    data-val-required="Este campo é obrigatório."
                     aria-label="Selecione um veículo">
                 <option value="">-- Selecione um veículo --</option>
                 @if (ViewBag.Veiculos != null)
@@ -35,6 +37,8 @@
                     name="IdCaracteristica" 
                     class="form-select" 
                     required 
+                    data-val="true"
+                    data-val-required="Este campo é obrigatório."
                     aria-label="Selecione uma característica">
                 <option value="">-- Selecione uma característica --</option>
                 @if (ViewBag.Caracteristicas != null)
@@ -61,7 +65,15 @@
     <div class="col-md-6">
         <div class="form-group mb-3">
             <label asp-for="Valor" class="form-label">Valor <span class="text-danger">*</span></label>
-            <input asp-for="Valor" class="form-control" type="number" step="0.01" min="0" required />
+            <input asp-for="Valor" 
+                   class="form-control" 
+                   type="number" 
+                   step="0.01" 
+                   min="0"
+                   required
+                   data-val="true"
+                   data-val-required="Este campo é obrigatório."
+                   data-val-range="O valor deve ser maior que zero." />
             <span asp-validation-for="Valor" class="d-block small text-danger mt-1"></span>
         </div>
     </div>
@@ -69,6 +81,12 @@
 
 <div class="form-group mb-3">
     <label asp-for="Comentario" class="form-label">Comentário</label>
-    <textarea asp-for="Comentario" class="form-control" rows="3" placeholder="Digite um comentário (opcional)"></textarea>
+    <textarea asp-for="Comentario" 
+              class="form-control" 
+              rows="3" 
+              placeholder="Digite um comentário (opcional)"
+              data-val="true"
+              data-val-maxlength="O comentário não pode ter mais de 500 caracteres."
+              maxlength="500"></textarea>
     <span asp-validation-for="Comentario" class="d-block small text-danger mt-1"></span>
 </div>

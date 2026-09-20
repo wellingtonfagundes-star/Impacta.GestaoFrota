@@ -9,6 +9,8 @@ public partial class Veiculo
 
     public string Placa { get; set; } = null!;
 
+    public string Nome { get; set; } = null!;
+
     public string? Renavam { get; set; }
 
     public string? Chassi { get; set; }

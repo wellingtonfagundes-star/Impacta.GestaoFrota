@@ -6,5 +6,6 @@ namespace Impacta.GestaoFrota.Domain.Interfaces.Repository
     {
         bool Remover(int idVeiculo, int idCaracteristica);
         CaracteristicaVeiculo ObterPorIds(int idVeiculo, int idCaracteristica);
+        IEnumerable<CaracteristicaVeiculoDto> ObterTodosComDescricoes();
     }
 }
