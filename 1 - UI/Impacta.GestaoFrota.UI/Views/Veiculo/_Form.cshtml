@@ -131,7 +131,7 @@
 </div>
 
 <div class="form-group mb-3">
-    <label asp-for="IdStatusFrota" class="form-label"></label>
+    <label asp-for="IdStatusFrota" class="form-label">Status Atual</label>
     <select asp-for="IdStatusFrota" class="form-select" required>
         <option value="">Selecione um status</option>
         @foreach (var status in ViewBag.StatusFrota as List<Impacta.GestaoFrota.Application.ViewModel.StatusFrotaViewModel>)
