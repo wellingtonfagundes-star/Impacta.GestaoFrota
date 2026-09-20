@@ -37,10 +37,10 @@
                             </a>
                             <ul class="dropdown-menu app-dropdown" aria-labelledby="cadastrosMenu">
                                 <li><h6 class="dropdown-header">Cadastros principais</h6></li>
-                                <li><a class="dropdown-item" asp-controller="Veiculos" asp-action="Index"><i class="bi bi-car-front-fill"></i>Veículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Veiculo" asp-action="Index"><i class="bi bi-car-front-fill"></i>Veículos</a></li>
                                 <li><a class="dropdown-item" asp-controller="Caracteristica" asp-action="Index"><i class="bi bi-list-check"></i>Características</a></li>
-                                <li><a class="dropdown-item" asp-controller="Funcionarios" asp-action="Index"><i class="bi bi-person-badge-fill"></i>Funcionários</a></li>
-                                <li><a class="dropdown-item" asp-controller="Pessoas" asp-action="Index"><i class="bi bi-people-fill"></i>Pessoas</a></li>
+                                @* <li><a class="dropdown-item" asp-controller="Funcionarios" asp-action="Index"><i class="bi bi-person-badge-fill"></i>Funcionários</a></li>
+                                <li><a class="dropdown-item" asp-controller="Pessoas" asp-action="Index"><i class="bi bi-people-fill"></i>Pessoas</a></li> *@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -49,11 +49,11 @@
                             </a>
                             <ul class="dropdown-menu app-dropdown" aria-labelledby="parametrizacoesMenu">
                                 <li><h6 class="dropdown-header">Configurações da frota</h6></li>
-                                <li><a class="dropdown-item" asp-controller="Locais" asp-action="Index"><i class="bi bi-geo-alt-fill"></i>Locais</a></li>
-                                <li><a class="dropdown-item" asp-controller="TipoEvento" asp-action="Index"><i class="bi bi-calendar-event-fill"></i>Tipo Evento</a></li>
+                               @*  <li><a class="dropdown-item" asp-controller="Locais" asp-action="Index"><i class="bi bi-geo-alt-fill"></i>Locais</a></li> *@
+                              @*   <li><a class="dropdown-item" asp-controller="TipoEvento" asp-action="Index"><i class="bi bi-calendar-event-fill"></i>Tipo Evento</a></li> *@
                                 <li><a class="dropdown-item" asp-controller="StatusFrota" asp-action="Index"><i class="bi bi-activity"></i>Status Frota</a></li>
-                                <li><a class="dropdown-item" asp-controller="CaracteristicasVeiculos" asp-action="Index"><i class="bi bi-diagram-3-fill"></i>Características Veículos</a></li>
-                                <li><a class="dropdown-item" asp-controller="StatusVeiculos" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i>Status Veículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="CaracteristicaVeiculo" asp-action="Index"><i class="bi bi-diagram-3-fill"></i>Características Veículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="StatusVeiculo" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i>Status Veículos</a></li>
                             </ul>
                         </li>
                     </ul>

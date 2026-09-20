@@ -19,6 +19,12 @@ builder.Services.AddAutoMapper(typeof(CaracteristicaProfile).Assembly);
 builder.Services.AddScoped<ICaracteristicaRepository, CaracteristicasRepository>();
 builder.Services.AddScoped<ICaracteristicaService, CaracteristicaService>();
 builder.Services.AddScoped<ICaracteristicaAppService, CaracteristicaAppService>();
+builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
+builder.Services.AddScoped<IVeiculoService, VeiculoService>();
+builder.Services.AddScoped<IVeiculoAppService, VeiculoAppService>();
+builder.Services.AddScoped<ICaracteristicaVeiculoRepository, CaracteristicaVeiculoRepository>();
+builder.Services.AddScoped<ICaracteristicaVeiculoService, CaracteristicaVeiculoService>();
+builder.Services.AddScoped<ICaracteristicaVeiculoAppService, CaracteristicaVeiculoAppService>();
 
 var app = builder.Build();
 

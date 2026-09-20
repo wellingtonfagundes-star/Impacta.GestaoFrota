@@ -1,0 +1,25 @@
+@model Impacta.GestaoFrota.Application.ViewModel.VeiculoViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="veiculoModalLabel">
+        <i class="bi bi-exclamation-triangle me-2"></i>Excluir veículo
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+</div>
+<div class="modal-body">
+    <div class="alert alert-warning mb-0">
+        <p class="mb-2"><strong>Atenção!</strong> Você está prestes a excluir o veículo:</p>
+        <p class="mb-0">
+            <strong>@Model.Placa</strong> - @Model.Fabricante (@Model.AnoModelo)
+        </p>
+    </div>
+    <p class="mt-3 mb-0">Esta ação <strong>não pode ser desfeita</strong>. Tem certeza que deseja continuar?</p>
+</div>
+<form asp-action="Delete" asp-route-id="@Model.IdVeiculo" method="post" data-delete-form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash3 me-2"></i>Excluir definitivamente
+        </button>
+    </div>
+</form>

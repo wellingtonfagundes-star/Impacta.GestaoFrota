@@ -1,0 +1,132 @@
+@model Impacta.GestaoFrota.Application.ViewModel.VeiculoViewModel
+
+<div class="form-group mb-3">
+    <label asp-for="Placa" class="form-label"></label>
+    <input asp-for="Placa" class="form-control" placeholder="ABC-1234" required />
+    <span asp-validation-for="Placa" class="d-block small text-danger mt-1"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="Fabricante" class="form-label"></label>
+            <input asp-for="Fabricante" class="form-control" required />
+            <span asp-validation-for="Fabricante" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="AnoModelo" class="form-label"></label>
+            <input asp-for="AnoModelo" class="form-control" type="number" min="1900" max="2100" required />
+            <span asp-validation-for="AnoModelo" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="NrIdentificacao" class="form-label"></label>
+            <input asp-for="NrIdentificacao" class="form-control" required />
+            <span asp-validation-for="NrIdentificacao" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="Cor" class="form-label"></label>
+            <input asp-for="Cor" class="form-control" required />
+            <span asp-validation-for="Cor" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="Renavam" class="form-label"></label>
+            <input asp-for="Renavam" class="form-control" placeholder="Opcional" />
+            <span asp-validation-for="Renavam" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="Chassi" class="form-label"></label>
+            <input asp-for="Chassi" class="form-control" placeholder="Opcional" />
+            <span asp-validation-for="Chassi" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="DataCompra" class="form-label"></label>
+            <input asp-for="DataCompra" class="form-control" type="date" />
+            <span asp-validation-for="DataCompra" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="KmAtual" class="form-label"></label>
+            <input asp-for="KmAtual" class="form-control" type="number" min="0" required />
+            <span asp-validation-for="KmAtual" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="TipoHabilitacao" class="form-label"></label>
+            <input asp-for="TipoHabilitacao" class="form-control" required />
+            <span asp-validation-for="TipoHabilitacao" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="TipoVeiculo" class="form-label"></label>
+            <input asp-for="TipoVeiculo" class="form-control" required />
+            <span asp-validation-for="TipoVeiculo" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="Seguradora" class="form-label"></label>
+            <input asp-for="Seguradora" class="form-control" placeholder="Opcional" />
+            <span asp-validation-for="Seguradora" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="NrApoliceSeguro" class="form-label"></label>
+            <input asp-for="NrApoliceSeguro" class="form-control" type="number" placeholder="Opcional" />
+            <span asp-validation-for="NrApoliceSeguro" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="InfoRodizio" class="form-label"></label>
+            <input asp-for="InfoRodizio" class="form-control" placeholder="Opcional" />
+            <span asp-validation-for="InfoRodizio" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="NrAtivo" class="form-label"></label>
+            <input asp-for="NrAtivo" class="form-control" type="number" placeholder="Opcional" />
+            <span asp-validation-for="NrAtivo" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="IdStatusFrota" class="form-label"></label>
+    <input asp-for="IdStatusFrota" class="form-control" type="number" required />
+    <span asp-validation-for="IdStatusFrota" class="d-block small text-danger mt-1"></span>
+</div>

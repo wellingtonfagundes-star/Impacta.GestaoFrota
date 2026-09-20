@@ -1,0 +1,74 @@
+@model Impacta.GestaoFrota.Application.ViewModel.CaracteristicaVeiculoViewModel
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="IdVeiculo" class="form-label">Veículo <span class="text-danger">*</span></label>
+            <select id="IdVeiculo" 
+                    name="IdVeiculo" 
+                    class="form-select" 
+                    required 
+                    aria-label="Selecione um veículo">
+                <option value="">-- Selecione um veículo --</option>
+                @if (ViewBag.Veiculos != null)
+                {
+                    @foreach (var veiculo in ViewBag.Veiculos)
+                    {
+                        if (veiculo.Value == Model.IdVeiculo.ToString())
+                        {
+                            <option value="@veiculo.Value" selected>@veiculo.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@veiculo.Value">@veiculo.Text</option>
+                        }
+                    }
+                }
+            </select>
+            <span asp-validation-for="IdVeiculo" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label for="IdCaracteristica" class="form-label">Característica <span class="text-danger">*</span></label>
+            <select id="IdCaracteristica" 
+                    name="IdCaracteristica" 
+                    class="form-select" 
+                    required 
+                    aria-label="Selecione uma característica">
+                <option value="">-- Selecione uma característica --</option>
+                @if (ViewBag.Caracteristicas != null)
+                {
+                    @foreach (var caracteristica in ViewBag.Caracteristicas)
+                    {
+                        if (caracteristica.Value == Model.IdCaracteristica.ToString())
+                        {
+                            <option value="@caracteristica.Value" selected>@caracteristica.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@caracteristica.Value">@caracteristica.Text</option>
+                        }
+                    }
+                }
+            </select>
+            <span asp-validation-for="IdCaracteristica" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="Valor" class="form-label">Valor <span class="text-danger">*</span></label>
+            <input asp-for="Valor" class="form-control" type="number" step="0.01" min="0" required />
+            <span asp-validation-for="Valor" class="d-block small text-danger mt-1"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="Comentario" class="form-label">Comentário</label>
+    <textarea asp-for="Comentario" class="form-control" rows="3" placeholder="Digite um comentário (opcional)"></textarea>
+    <span asp-validation-for="Comentario" class="d-block small text-danger mt-1"></span>
+</div>

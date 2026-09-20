@@ -1,16 +1,24 @@
 ﻿using Impacta.GestaoFrota.Application.Interfaces;
 using Impacta.GestaoFrota.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Impacta.GestaoFrota.UI.Controllers
 {
-    public class VeiculoController : Controller
+    public class CaracteristicaVeiculoController : Controller
     {
+        private readonly ICaracteristicaVeiculoAppService _caracteristicaVeiculoAppService;
         private readonly IVeiculoAppService _veiculoAppService;
+        private readonly ICaracteristicaAppService _caracteristicaAppService;
 
-        public VeiculoController(IVeiculoAppService veiculoAppService)
+        public CaracteristicaVeiculoController(
+            ICaracteristicaVeiculoAppService caracteristicaVeiculoAppService,
+            IVeiculoAppService veiculoAppService,
+            ICaracteristicaAppService caracteristicaAppService)
         {
+            _caracteristicaVeiculoAppService = caracteristicaVeiculoAppService;
             _veiculoAppService = veiculoAppService;
+            _caracteristicaAppService = caracteristicaAppService;
         }
 
         public IActionResult Index(int page = 1, int pageSize = 10, string search = "")
@@ -18,15 +26,14 @@ namespace Impacta.GestaoFrota.UI.Controllers
             page = Math.Max(page, 1);
             pageSize = pageSize is 5 or 10 or 25 or 50 ? pageSize : 10;
 
-            var todos = _veiculoAppService.ObterTodos().ToList();
+            var todos = _caracteristicaVeiculoAppService.ObterTodos().ToList();
 
             // Aplicar filtro de pesquisa
             if (!string.IsNullOrWhiteSpace(search))
             {
                 todos = todos
-                    .Where(v => v.Placa.Contains(search, StringComparison.CurrentCultureIgnoreCase) ||
-                                v.Fabricante.Contains(search, StringComparison.CurrentCultureIgnoreCase) ||
-                                v.NrIdentificacao.Contains(search, StringComparison.CurrentCultureIgnoreCase))
+                    .Where(cv => cv.VeiculoDescricao.Contains(search, StringComparison.CurrentCultureIgnoreCase) ||
+                                cv.CaracteristicaDescricao.Contains(search, StringComparison.CurrentCultureIgnoreCase))
                     .ToList();
             }
 
@@ -45,15 +52,17 @@ namespace Impacta.GestaoFrota.UI.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            if (IsAjaxRequest())
-                return PartialView("_CreateModal", new VeiculoViewModel());
+            PopularDropdowns();
 
-            return View(new VeiculoViewModel());
+            if (IsAjaxRequest())
+                return PartialView("_CreateModal", new CaracteristicaVeiculoViewModel());
+
+            return View(new CaracteristicaVeiculoViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(VeiculoViewModel viewModel)
+        public IActionResult Create(CaracteristicaVeiculoViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -64,24 +73,26 @@ namespace Impacta.GestaoFrota.UI.Controllers
                     return Json(new { success = false, message = errorMessage });
                 }
 
+                PopularDropdowns();
                 return IsAjaxRequest()
                     ? PartialView("_CreateModal", viewModel)
                     : View(viewModel);
             }
 
-            if (_veiculoAppService.Adicionar(viewModel))
+            if (_caracteristicaVeiculoAppService.Adicionar(viewModel))
             {
                 if (IsAjaxRequest())
-                    return Json(new { success = true, message = "Veículo cadastrado com sucesso." });
+                    return Json(new { success = true, message = "Parametrização cadastrada com sucesso." });
 
-                TempData["SuccessMessage"] = "Veículo cadastrado com sucesso.";
+                TempData["SuccessMessage"] = "Parametrização cadastrada com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
 
-            var errorMsg = "Não foi possível cadastrar o veículo.";
+            var errorMsg = "Não foi possível cadastrar a parametrização.";
             if (IsAjaxRequest())
                 return Json(new { success = false, message = errorMsg });
 
+            PopularDropdowns();
             ModelState.AddModelError(string.Empty, errorMsg);
             return IsAjaxRequest()
                 ? PartialView("_CreateModal", viewModel)
@@ -89,11 +100,13 @@ namespace Impacta.GestaoFrota.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int idVeiculo, int idCaracteristica)
         {
-            var viewModel = _veiculoAppService.ObterPorId(id);
+            var viewModel = _caracteristicaVeiculoAppService.ObterPorId(idVeiculo, idCaracteristica);
             if (viewModel is null)
                 return NotFound();
+
+            PopularDropdowns();
 
             if (IsAjaxRequest())
                 return PartialView("_EditModal", viewModel);
@@ -103,9 +116,9 @@ namespace Impacta.GestaoFrota.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, VeiculoViewModel viewModel)
+        public IActionResult Edit(int idVeiculo, int idCaracteristica, CaracteristicaVeiculoViewModel viewModel)
         {
-            if (id != viewModel.IdVeiculo)
+            if (idVeiculo != viewModel.IdVeiculo || idCaracteristica != viewModel.IdCaracteristica)
                 return BadRequest();
 
             if (!ModelState.IsValid)
@@ -117,24 +130,26 @@ namespace Impacta.GestaoFrota.UI.Controllers
                     return Json(new { success = false, message = errorMessage });
                 }
 
+                PopularDropdowns();
                 return IsAjaxRequest()
                     ? PartialView("_EditModal", viewModel)
                     : View(viewModel);
             }
 
-            if (_veiculoAppService.Atualizar(viewModel))
+            if (_caracteristicaVeiculoAppService.Atualizar(viewModel))
             {
                 if (IsAjaxRequest())
-                    return Json(new { success = true, message = "Veículo atualizado com sucesso." });
+                    return Json(new { success = true, message = "Parametrização atualizada com sucesso." });
 
-                TempData["SuccessMessage"] = "Veículo atualizado com sucesso.";
+                TempData["SuccessMessage"] = "Parametrização atualizada com sucesso.";
                 return RedirectToAction(nameof(Index));
             }
 
-            var errorMsg = "Não foi possível atualizar o veículo.";
+            var errorMsg = "Não foi possível atualizar a parametrização.";
             if (IsAjaxRequest())
                 return Json(new { success = false, message = errorMsg });
 
+            PopularDropdowns();
             ModelState.AddModelError(string.Empty, errorMsg);
             return IsAjaxRequest()
                 ? PartialView("_EditModal", viewModel)
@@ -142,9 +157,9 @@ namespace Impacta.GestaoFrota.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int idVeiculo, int idCaracteristica)
         {
-            var viewModel = _veiculoAppService.ObterPorId(id);
+            var viewModel = _caracteristicaVeiculoAppService.ObterPorId(idVeiculo, idCaracteristica);
             if (viewModel is null)
                 return NotFound();
 
@@ -156,24 +171,46 @@ namespace Impacta.GestaoFrota.UI.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int idVeiculo, int idCaracteristica)
         {
-            if (_veiculoAppService.Remover(id))
+            if (_caracteristicaVeiculoAppService.Remover(idVeiculo, idCaracteristica))
             {
                 if (IsAjaxRequest())
-                    return Json(new { success = true, message = "Veículo excluído com sucesso." });
+                    return Json(new { success = true, message = "Parametrização excluída com sucesso." });
 
-                TempData["SuccessMessage"] = "Veículo removido com sucesso.";
+                TempData["SuccessMessage"] = "Parametrização removida com sucesso.";
             }
             else
             {
                 if (IsAjaxRequest())
-                    return Json(new { success = false, message = "Não foi possível excluir o veículo." });
+                    return Json(new { success = false, message = "Não foi possível excluir a parametrização." });
 
-                TempData["ErrorMessage"] = "Não foi possível remover o veículo.";
+                TempData["ErrorMessage"] = "Não foi possível remover a parametrização.";
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private void PopularDropdowns()
+        {
+            var veiculos = _veiculoAppService.ObterTodos()
+                .Select(v => new SelectListItem
+                {
+                    Value = v.IdVeiculo.ToString(),
+                    Text = $"{v.Placa} - {v.Fabricante} ({v.AnoModelo})"
+                })
+                .ToList();
+
+            var caracteristicas = _caracteristicaAppService.ObterTodos()
+                .Select(c => new SelectListItem
+                {
+                    Value = c.IdCaracteristica.ToString(),
+                    Text = c.Descricao
+                })
+                .ToList();
+
+            ViewBag.Veiculos = veiculos;
+            ViewBag.Caracteristicas = caracteristicas;
         }
 
         private bool IsAjaxRequest()
