@@ -15,7 +15,7 @@ public class FrotaContext : DbContext
     public virtual DbSet<CaracteristicaVeiculo> CaracteristicaVeiculos { get; set; }
     public virtual DbSet<Funcionario> Funcionarios { get; set; }
     public virtual DbSet<Historico> Historicos { get; set; }
-    public virtual DbSet<Locai> Locais { get; set; }
+    public virtual DbSet<Local> Locais { get; set; }
     public virtual DbSet<Pessoa> Pessoas { get; set; }
     public virtual DbSet<ReservaVeiculo> ReservaVeiculos { get; set; }
     public virtual DbSet<RetornoVeiculo> RetornoVeiculos { get; set; }

@@ -4,9 +4,9 @@ using Impacta.GestaoFrota.Domain.Models;
 
 namespace Impacta.GestaoFrota.Data.mappings;
 
-public class LocalMapping : IEntityTypeConfiguration<Locai>
+public class LocalMapping : IEntityTypeConfiguration<Local>
 {
-    public void Configure(EntityTypeBuilder<Locai> builder)
+    public void Configure(EntityTypeBuilder<Local> builder)
     {
         builder.HasKey(e => e.IdLocal).HasName("locais_pkey");
 

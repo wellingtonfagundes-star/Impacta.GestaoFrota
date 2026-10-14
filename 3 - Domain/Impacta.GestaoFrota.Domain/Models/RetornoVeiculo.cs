@@ -21,7 +21,7 @@ public partial class RetornoVeiculo
 
     public decimal? KmRetorno { get; set; }
 
-    public virtual Locai IdLocalRetornoNavigation { get; set; } = null!;
+    public virtual Local IdLocalRetornoNavigation { get; set; } = null!;
 
     public virtual ReservaVeiculo IdReservaNavigation { get; set; } = null!;
 

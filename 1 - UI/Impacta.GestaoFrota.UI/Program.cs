@@ -31,6 +31,12 @@ builder.Services.AddScoped<IStatusFrotaAppService, StatusFrotaAppService>();
 builder.Services.AddScoped<ITipoEventoRepository, TipoEventoRepository>();
 builder.Services.AddScoped<ITipoEventoService, TipoEventoService>();
 builder.Services.AddScoped<ITipoEventoAppService, TipoEventoAppService>();
+builder.Services.AddScoped<ILocalAssistenciaRepository, LocalAssistenciaRepository>();
+builder.Services.AddScoped<ILocalAssistenciaService, LocalAssistenciaService>();
+builder.Services.AddScoped<ILocalAssistenciaAppService, LocalAssistenciaAppService>();
+builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
+builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
+builder.Services.AddScoped<IFuncionarioAppService, FuncionarioAppService>();
 
 var app = builder.Build();
 

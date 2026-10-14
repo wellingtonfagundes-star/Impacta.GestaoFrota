@@ -39,7 +39,7 @@ public partial class ReservaVeiculo
 
     public virtual Funcionario? IdFuncionarioAprovadorNavigation { get; set; }
 
-    public virtual Locai? IdLocalDestinoNavigation { get; set; }
+    public virtual Local? IdLocalDestinoNavigation { get; set; }
 
     public virtual ICollection<RetornoVeiculo> RetornoVeiculos { get; set; } = new List<RetornoVeiculo>();
 }

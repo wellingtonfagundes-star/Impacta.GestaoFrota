@@ -1,0 +1,17 @@
+@model Impacta.GestaoFrota.Application.ViewModel.FuncionarioViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="funcionarioModalLabel"><i class="bi bi-trash3 me-2"></i>Excluir funcionário</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+</div>
+<form asp-action="Delete" asp-route-id="@Model.IdFuncionario" method="post" data-delete-form>
+    <div class="modal-body">
+        <input asp-for="IdFuncionario" type="hidden" />
+        <div class="alert alert-warning"><i class="bi bi-exclamation-triangle-fill me-2"></i>Esta ação não pode ser desfeita.</div>
+        <p class="mb-0">Deseja excluir o funcionário <strong>@Model.Nome</strong> (matrícula <strong>@Model.Matricula</strong>)?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash3 me-2"></i>Excluir funcionário</button>
+    </div>
+</form>

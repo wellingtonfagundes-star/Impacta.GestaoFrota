@@ -31,7 +31,7 @@ public partial class Historico
 
     public virtual Funcionario IdFuncionarioResponsavelNavigation { get; set; } = null!;
 
-    public virtual Locai IdLocalNavigation { get; set; } = null!;
+    public virtual Local IdLocalNavigation { get; set; } = null!;
 
     public virtual TipoEvento IdTipoeventoNavigation { get; set; } = null!;
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Impacta.GestaoFrota.Domain.Models;
 
-public partial class Locai
+public partial class Local
 {
     public int IdLocal { get; set; }
 
