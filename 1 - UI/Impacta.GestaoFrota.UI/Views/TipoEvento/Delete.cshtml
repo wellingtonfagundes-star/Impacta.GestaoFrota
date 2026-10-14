@@ -1,0 +1,34 @@
+@model Impacta.GestaoFrota.Application.ViewModel.TipoEventoViewModel
+
+@{
+    ViewData["Title"] = "Excluir tipo de evento";
+}
+
+<section class="crud-page narrow-crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker text-danger"><i class="bi bi-trash3 me-2"></i>Tipos de Evento</p>
+            <h1 id="page-title" class="crud-title">Excluir tipo de evento</h1>
+            <p class="crud-subtitle">Confirme a remoção do cadastro abaixo.</p>
+        </div>
+    </div>
+    <div class="crud-form-card delete-card">
+        <div class="delete-warning">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <div><strong>Esta ação não pode ser desfeita.</strong><p class="mb-0">A exclusão pode não ser permitida se houver históricos vinculados.</p></div>
+        </div>
+        <dl class="row delete-details mb-4">
+            <dt class="col-sm-4">Nome</dt><dd class="col-sm-8">@Model.Nome</dd>
+            <dt class="col-sm-4">Descrição</dt><dd class="col-sm-8">@Model.Descricao</dd>
+            <dt class="col-sm-4">Informação adicional</dt><dd class="col-sm-8">@(string.IsNullOrWhiteSpace(Model.InfoAdicional) ? "—" : Model.InfoAdicional)</dd>
+            <dt class="col-sm-4">Periodicidade</dt><dd class="col-sm-8">@(Model.Periodicidade.HasValue ? $"{Model.Periodicidade} dias" : "—")</dd>
+        </dl>
+        <form asp-action="Delete" method="post">
+            <input asp-for="IdTipoevento" type="hidden" />
+            <div class="crud-form-actions">
+                <a class="btn btn-light" asp-action="Index"><i class="bi bi-arrow-left me-2"></i>Cancelar</a>
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash3 me-2"></i>Excluir tipo de evento</button>
+            </div>
+        </form>
+    </div>
+</section>

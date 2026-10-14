@@ -1,0 +1,28 @@
+@model Impacta.GestaoFrota.Application.ViewModel.TipoEventoViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<input asp-for="IdTipoevento" type="hidden" />
+
+<div class="mb-3">
+    <label asp-for="Nome" class="form-label">Nome</label>
+    <input asp-for="Nome" class="form-control" placeholder="Informe o nome do tipo de evento" autofocus />
+    <span asp-validation-for="Nome" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Descricao" class="form-label">Descrição</label>
+    <input asp-for="Descricao" class="form-control" placeholder="Informe a descrição" />
+    <span asp-validation-for="Descricao" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="InfoAdicional" class="form-label">Informação adicional</label>
+    <textarea asp-for="InfoAdicional" class="form-control" rows="3" placeholder="Informação opcional"></textarea>
+    <span asp-validation-for="InfoAdicional" class="text-danger"></span>
+</div>
+
+<div class="mb-0">
+    <label asp-for="Periodicidade" class="form-label">Periodicidade (dias)</label>
+    <input asp-for="Periodicidade" class="form-control" type="number" min="1" placeholder="Opcional" />
+    <span asp-validation-for="Periodicidade" class="text-danger"></span>
+</div>

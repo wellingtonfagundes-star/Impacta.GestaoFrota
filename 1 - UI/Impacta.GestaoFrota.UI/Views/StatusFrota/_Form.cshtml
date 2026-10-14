@@ -1,0 +1,16 @@
+@model Impacta.GestaoFrota.Application.ViewModel.StatusFrotaViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<input asp-for="IdStatusFrota" type="hidden" />
+
+<div class="mb-3">
+    <label asp-for="NomeStatus" class="form-label">Nome do status</label>
+    <input asp-for="NomeStatus" class="form-control" placeholder="Informe o nome do status" autofocus />
+    <span asp-validation-for="NomeStatus" class="text-danger"></span>
+</div>
+
+<div class="mb-0">
+    <label asp-for="Descricao" class="form-label">Descrição</label>
+    <textarea asp-for="Descricao" class="form-control" rows="4" placeholder="Inclua uma descrição, se necessário"></textarea>
+    <span asp-validation-for="Descricao" class="text-danger"></span>
+</div>

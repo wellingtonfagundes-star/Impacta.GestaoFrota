@@ -28,6 +28,9 @@ builder.Services.AddScoped<ICaracteristicaVeiculoAppService, CaracteristicaVeicu
 builder.Services.AddScoped<IStatusFrotaRepository, StatusFrotaRepository>();
 builder.Services.AddScoped<IStatusFrotaService, StatusFrotaService>();
 builder.Services.AddScoped<IStatusFrotaAppService, StatusFrotaAppService>();
+builder.Services.AddScoped<ITipoEventoRepository, TipoEventoRepository>();
+builder.Services.AddScoped<ITipoEventoService, TipoEventoService>();
+builder.Services.AddScoped<ITipoEventoAppService, TipoEventoAppService>();
 
 var app = builder.Build();
 

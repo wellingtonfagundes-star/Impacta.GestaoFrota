@@ -1,0 +1,26 @@
+@model Impacta.GestaoFrota.Application.ViewModel.StatusFrotaViewModel
+
+@{
+    ViewData["Title"] = "Novo status da frota";
+}
+
+<section class="crud-page narrow-crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-activity me-2"></i>Status da Frota</p>
+            <h1 id="page-title" class="crud-title">Novo status</h1>
+            <p class="crud-subtitle">Cadastre um novo status para os veículos da frota.</p>
+        </div>
+    </div>
+    <div class="crud-form-card">
+        <form asp-action="Create" method="post">
+            <partial name="_Form" model="Model" />
+            <div class="crud-form-actions">
+                <a class="btn btn-light" asp-action="Index"><i class="bi bi-arrow-left me-2"></i>Cancelar</a>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle me-2"></i>Salvar status</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

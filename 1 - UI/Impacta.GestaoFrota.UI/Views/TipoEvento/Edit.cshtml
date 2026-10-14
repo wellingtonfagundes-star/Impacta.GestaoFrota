@@ -1,0 +1,26 @@
+@model Impacta.GestaoFrota.Application.ViewModel.TipoEventoViewModel
+
+@{
+    ViewData["Title"] = "Editar tipo de evento";
+}
+
+<section class="crud-page narrow-crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-calendar-event-fill me-2"></i>Tipos de Evento</p>
+            <h1 id="page-title" class="crud-title">Editar tipo de evento</h1>
+            <p class="crud-subtitle">Atualize os dados do tipo de evento selecionado.</p>
+        </div>
+    </div>
+    <div class="crud-form-card">
+        <form asp-action="Edit" asp-route-id="@Model.IdTipoevento" method="post">
+            <partial name="_Form" model="Model" />
+            <div class="crud-form-actions">
+                <a class="btn btn-light" asp-action="Index"><i class="bi bi-arrow-left me-2"></i>Cancelar</a>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle me-2"></i>Salvar alterações</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
