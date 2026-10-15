@@ -32,7 +32,9 @@ public class FuncionarioAppService : IFuncionarioAppService
     {
         try
         {
-            return _service.Adicionar(_mapper.Map<Funcionario>(viewModel));
+            var funcionario = _mapper.Map<Funcionario>(viewModel);
+            funcionario.Cpf = NormalizarCpf(viewModel.Cpf);
+            return _service.Adicionar(funcionario);
         }
         catch
         {
@@ -49,6 +51,7 @@ public class FuncionarioAppService : IFuncionarioAppService
                 return false;
 
             _mapper.Map(viewModel, funcionario);
+            funcionario.Cpf = NormalizarCpf(viewModel.Cpf);
             return _service.Atualizar(funcionario);
         }
         catch
@@ -67,5 +70,10 @@ public class FuncionarioAppService : IFuncionarioAppService
         {
             return false;
         }
+    }
+
+    private static string NormalizarCpf(string cpf)
+    {
+        return new string(cpf.Where(char.IsAsciiDigit).ToArray());
     }
 }

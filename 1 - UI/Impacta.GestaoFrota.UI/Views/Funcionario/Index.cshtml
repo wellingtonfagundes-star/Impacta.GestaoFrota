@@ -114,6 +114,56 @@
             const modalContent = document.getElementById('funcionarioModalContent');
             const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
 
+            if (window.jQuery && $.validator) {
+                $.extend($.validator.messages, {
+                    required: 'Este campo é obrigatório.',
+                    remote: 'Corrija este campo.',
+                    email: 'Informe um endereço de e-mail válido.',
+                    url: 'Informe uma URL válida.',
+                    date: 'Informe uma data válida.',
+                    dateISO: 'Informe uma data válida (AAAA-MM-DD).',
+                    number: 'Informe um número válido.',
+                    digits: 'Informe somente números.',
+                    equalTo: 'Informe novamente o mesmo valor.',
+                    maxlength: $.validator.format('Informe no máximo {0} caracteres.'),
+                    minlength: $.validator.format('Informe pelo menos {0} caracteres.'),
+                    rangelength: $.validator.format('Informe um valor entre {0} e {1} caracteres.'),
+                    range: $.validator.format('Informe um valor entre {0} e {1}.'),
+                    max: $.validator.format('Informe um valor menor ou igual a {0}.'),
+                    min: $.validator.format('Informe um valor maior ou igual a {0}.')
+                });
+                $.validator.addMethod('cpf', function (value, element) {
+                    return this.optional(element) || validarCpf(value);
+                }, 'O CPF informado é inválido.');
+                if ($.validator.unobtrusive) $.validator.unobtrusive.adapters.addBool('cpf');
+            }
+
+            function validarCpf(value) {
+                const cpf = value.replace(/\D/g, '');
+                if (!/^\d{11}$/.test(cpf) || /^(\d)\1{10}$/.test(cpf)) return false;
+
+                let soma = 0;
+                for (let indice = 0; indice < 9; indice++) soma += Number(cpf[indice]) * (10 - indice);
+                let digito = (soma * 10) % 11;
+                if (digito === 10) digito = 0;
+                if (Number(cpf[9]) !== digito) return false;
+
+                soma = 0;
+                for (let indice = 0; indice < 10; indice++) soma += Number(cpf[indice]) * (11 - indice);
+                digito = (soma * 10) % 11;
+                if (digito === 10) digito = 0;
+
+                return Number(cpf[10]) === digito;
+            }
+
+            function aplicarMascaraCpf(value) {
+                const cpf = value.replace(/\D/g, '').slice(0, 11);
+                if (cpf.length > 9) return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+                if (cpf.length > 6) return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6)}`;
+                if (cpf.length > 3) return `${cpf.slice(0, 3)}.${cpf.slice(3)}`;
+                return cpf;
+            }
+
             document.querySelectorAll('.crud-alert').forEach(alert => setTimeout(() => bootstrap.Alert.getOrCreateInstance(alert).close(), 4000));
 
             async function loadModal(url) {
@@ -141,8 +191,18 @@
                 const deleteForm = modalContent.querySelector('[data-delete-form]');
                 const activeForm = deleteForm || form;
                 if (!activeForm) return;
+
+                const cpfInput = activeForm.querySelector('[data-cpf-input]');
+                if (cpfInput) {
+                    cpfInput.value = aplicarMascaraCpf(cpfInput.value);
+                    cpfInput.addEventListener('input', () => {
+                        cpfInput.value = aplicarMascaraCpf(cpfInput.value);
+                    });
+                }
+
                 activeForm.addEventListener('submit', async event => {
                     event.preventDefault();
+                    if (form && window.jQuery && $.validator && !$(form).valid()) return;
                     const button = activeForm.querySelector('button[type="submit"]');
                     button.disabled = true;
                     const response = await fetch(activeForm.action, { method: 'POST', body: new FormData(activeForm), headers: { 'X-Requested-With': 'XMLHttpRequest' } });

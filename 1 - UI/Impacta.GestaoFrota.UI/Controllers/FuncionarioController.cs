@@ -26,7 +26,7 @@ namespace Impacta.GestaoFrota.UI.Controllers
             {
                 funcionarios = funcionarios
                     .Where(funcionario => funcionario.Nome.Contains(search, StringComparison.CurrentCultureIgnoreCase) ||
-                                          funcionario.Matricula.Contains(search, StringComparison.CurrentCultureIgnoreCase) ||
+                                          (funcionario.Matricula?.Contains(search, StringComparison.CurrentCultureIgnoreCase) ?? false) ||
                                           funcionario.Cpf.Contains(search, StringComparison.CurrentCultureIgnoreCase) ||
                                           funcionario.Cidade.Contains(search, StringComparison.CurrentCultureIgnoreCase))
                     .ToList();

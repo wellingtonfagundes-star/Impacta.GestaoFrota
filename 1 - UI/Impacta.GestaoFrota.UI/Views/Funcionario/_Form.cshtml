@@ -39,7 +39,36 @@
     </div>
     <div class="col-md-3 mb-3">
         <label asp-for="Estado" class="form-label">Estado</label>
-        <input asp-for="Estado" class="form-control" placeholder="Informe o estado" />
+        <select asp-for="Estado" class="form-select">
+            <option value="">Selecione o estado</option>
+            <option value="AC">AC</option>
+            <option value="AL">AL</option>
+            <option value="AP">AP</option>
+            <option value="AM">AM</option>
+            <option value="BA">BA</option>
+            <option value="CE">CE</option>
+            <option value="DF">DF</option>
+            <option value="ES">ES</option>
+            <option value="GO">GO</option>
+            <option value="MA">MA</option>
+            <option value="MT">MT</option>
+            <option value="MS">MS</option>
+            <option value="MG">MG</option>
+            <option value="PA">PA</option>
+            <option value="PB">PB</option>
+            <option value="PR">PR</option>
+            <option value="PE">PE</option>
+            <option value="PI">PI</option>
+            <option value="RJ">RJ</option>
+            <option value="RN">RN</option>
+            <option value="RS">RS</option>
+            <option value="RO">RO</option>
+            <option value="RR">RR</option>
+            <option value="SC">SC</option>
+            <option value="SP">SP</option>
+            <option value="SE">SE</option>
+            <option value="TO">TO</option>
+        </select>
         <span asp-validation-for="Estado" class="text-danger"></span>
     </div>
     <div class="col-md-4 mb-3">
@@ -52,12 +81,16 @@
 <div class="row">
     <div class="col-md-6 mb-0">
         <label asp-for="Cpf" class="form-label">CPF</label>
-        <input asp-for="Cpf" class="form-control" inputmode="numeric" maxlength="11" placeholder="Somente números" />
+        <input asp-for="Cpf" class="form-control" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" autocomplete="off" data-cpf-input data-val-cpf="O CPF informado é inválido." />
         <span asp-validation-for="Cpf" class="text-danger"></span>
     </div>
     <div class="col-md-6 mb-0">
         <label asp-for="Sexo" class="form-label">Sexo</label>
-        <input asp-for="Sexo" class="form-control" maxlength="1" placeholder="Informe um caractere" />
+        <select asp-for="Sexo" class="form-select">
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+        </select>
         <span asp-validation-for="Sexo" class="text-danger"></span>
     </div>
 </div>
