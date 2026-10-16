@@ -29,9 +29,11 @@ public class PessoaMapping : IEntityTypeConfiguration<Pessoa>
             .HasMaxLength(70)
             .HasColumnName("cidade");
         builder.Property(e => e.Cnpj)
-            .HasMaxLength(15)
+            .HasColumnType("character varying(14)")
+            .HasMaxLength(14)
             .HasColumnName("cnpj");
         builder.Property(e => e.Cpf)
+            .HasColumnType("character varying(11)")
             .HasMaxLength(11)
             .HasColumnName("cpf");
         builder.Property(e => e.DataCriacao)

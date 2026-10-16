@@ -20,10 +20,14 @@ public sealed class DocumentoClienteValidoAttribute : ValidationAttribute
             return ValidationResult.Success;
 
         var digitos = new string(documento.Where(char.IsAsciiDigit).ToArray());
+        var documentoAlfanumerico = new string(documento
+            .Where(char.IsAsciiLetterOrDigit)
+            .Select(char.ToUpperInvariant)
+            .ToArray());
         var valido = cliente.TipoCliente switch
         {
             "PF" => ValidarCpf(digitos),
-            "PJ" => ValidarCnpj(digitos),
+            "PJ" => ValidarCnpj(documentoAlfanumerico),
             _ => false
         };
 
@@ -61,10 +65,13 @@ public sealed class DocumentoClienteValidoAttribute : ValidationAttribute
 
     private static bool ValidarCnpj(string cnpj)
     {
-        if (cnpj.Length != 14 || cnpj.All(digito => digito == cnpj[0]))
+        if (cnpj.Length != 14 ||
+            !cnpj[..12].All(char.IsAsciiLetterOrDigit) ||
+            !cnpj[12..].All(char.IsAsciiDigit) ||
+            cnpj.All(caractere => caractere == cnpj[0]))
             return false;
 
-        var digitos = cnpj.Select(digito => digito - '0').ToArray();
+        var digitos = cnpj.Select(caractere => caractere - '0').ToArray();
         var pesosPrimeiroDigito = new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
         var pesosSegundoDigito = new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 

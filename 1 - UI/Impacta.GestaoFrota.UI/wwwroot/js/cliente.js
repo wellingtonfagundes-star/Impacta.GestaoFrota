@@ -31,10 +31,10 @@
     }
 
     function validarCnpj(value) {
-        const cnpj = value.replace(/\D/g, '');
-        if (!/^\d{14}$/.test(cnpj) || /^(\d)\1{13}$/.test(cnpj)) return false;
+        const cnpj = value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+        if (!/^[A-Z0-9]{12}\d{2}$/.test(cnpj) || /^([A-Z0-9])\1{13}$/.test(cnpj)) return false;
 
-        const digitos = [...cnpj].map(Number);
+        const digitos = [...cnpj].map(caractere => caractere.charCodeAt(0) - 48);
         const calcularDigito = pesos => {
             const soma = pesos.reduce((total, peso, indice) => total + digitos[indice] * peso, 0);
             const resto = soma % 11;
@@ -52,13 +52,15 @@
 
     function aplicarMascara(value, tipo) {
         const limite = tipo === 'PJ' ? 14 : 11;
-        const digitos = value.replace(/\D/g, '').slice(0, limite);
+        const digitos = (tipo === 'PJ'
+            ? value.replace(/[^A-Za-z0-9]/g, '').toUpperCase()
+            : value.replace(/\D/g, '')).slice(0, limite);
         if (tipo === 'PJ') {
             return digitos
-                .replace(/^(\d{2})(\d)/, '$1.$2')
-                .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-                .replace(/\.(\d{3})(\d)/, '.$1/$2')
-                .replace(/(\d{4})(\d)/, '$1-$2');
+                .replace(/^([A-Z0-9]{2})([A-Z0-9])/, '$1.$2')
+                .replace(/^([A-Z0-9]{2})\.([A-Z0-9]{3})([A-Z0-9])/, '$1.$2.$3')
+                .replace(/\.([A-Z0-9]{3})([A-Z0-9])/, '.$1/$2')
+                .replace(/([A-Z0-9]{4})([A-Z0-9])/, '$1-$2');
         }
 
         return digitos
