@@ -37,6 +37,9 @@ builder.Services.AddScoped<ILocalAssistenciaAppService, LocalAssistenciaAppServi
 builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
 builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
 builder.Services.AddScoped<IFuncionarioAppService, FuncionarioAppService>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IClienteAppService, ClienteAppService>();
 
 var app = builder.Build();
 

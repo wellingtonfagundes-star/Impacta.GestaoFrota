@@ -1,0 +1,17 @@
+@model Impacta.GestaoFrota.Application.ViewModel.ClienteViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="clienteModalLabel"><i class="bi bi-trash3 me-2"></i>Excluir cliente</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+</div>
+<form asp-action="Delete" asp-route-id="@Model.IdPessoa" method="post" data-delete-form>
+    <div class="modal-body">
+        <input asp-for="IdPessoa" type="hidden" />
+        <div class="alert alert-warning"><i class="bi bi-exclamation-triangle-fill me-2"></i>Esta ação não pode ser desfeita.</div>
+        <p class="mb-0">Deseja excluir o cliente <strong>@Model.Nome</strong> (@(Model.TipoCliente == "PJ" ? "CNPJ" : "CPF"): <strong>@Model.Documento</strong>)?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash3 me-2"></i>Excluir cliente</button>
+    </div>
+</form>

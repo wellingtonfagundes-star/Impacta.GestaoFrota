@@ -1,0 +1,112 @@
+@model IEnumerable<Impacta.GestaoFrota.Application.ViewModel.ClienteViewModel>
+
+@{
+    ViewData["Title"] = "Clientes";
+    var page = (int)(ViewBag.Page ?? 1);
+    var pageSize = (int)(ViewBag.PageSize ?? 10);
+    var totalRegistros = (int)(ViewBag.TotalRegistros ?? 0);
+    var totalPaginas = (int)(ViewBag.TotalPaginas ?? 1);
+    var search = (string)(ViewBag.Search ?? "");
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-folder2-open me-2"></i>Cadastros</p>
+            <h1 id="page-title" class="crud-title">Clientes</h1>
+            <p class="crud-subtitle">Gerencie os clientes, pessoas físicas e jurídicas.</p>
+        </div>
+        <a class="btn btn-primary crud-action" href="#" data-modal-url="@Url.Action("Create")">
+            <i class="bi bi-plus-circle me-2"></i>Novo cliente
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success crud-alert" role="alert"><i class="bi bi-check-circle-fill me-2"></i>@successMessage</div>
+    }
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger crud-alert" role="alert"><i class="bi bi-exclamation-circle-fill me-2"></i>@errorMessage</div>
+    }
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-people-fill"></i></span><span>Clientes cadastrados</span></div>
+            <span class="crud-count">@totalRegistros registros</span>
+        </div>
+
+        <div class="card-body border-bottom">
+            <form asp-action="Index" asp-route-pageSize="@pageSize" method="get" class="d-flex gap-2">
+                <div class="flex-grow-1">
+                    <input type="text" name="search" class="form-control form-control-sm" placeholder="Pesquisar por nome, CPF/CNPJ ou cidade..." value="@search" aria-label="Pesquisar clientes">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm" title="Pesquisar"><i class="bi bi-search"></i><span class="ms-1 d-none d-md-inline">Pesquisar</span></button>
+                @if (!string.IsNullOrWhiteSpace(search))
+                {
+                    <a asp-action="Index" asp-route-pageSize="@pageSize" class="btn btn-outline-secondary btn-sm" title="Limpar pesquisa"><i class="bi bi-x-circle"></i><span class="ms-1 d-none d-md-inline">Limpar</span></a>
+                }
+            </form>
+        </div>
+
+        @if (Model is null || !Model.Any())
+        {
+            <div class="crud-empty">
+                <i class="bi bi-inbox"></i>
+                <h2>Nenhum cliente cadastrado</h2>
+                <p>Comece adicionando um cliente à frota.</p>
+                <a class="btn btn-outline-primary" href="#" data-modal-url="@Url.Action("Create")">Cadastrar cliente</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table crud-table align-middle mb-0">
+                    <thead><tr><th scope="col">Nome</th><th scope="col">Tipo</th><th scope="col">CPF/CNPJ</th><th scope="col">Cidade</th><th scope="col">Estado</th><th scope="col" class="text-end">Ações</th></tr></thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@item.Nome</td>
+                                <td><span class="badge text-bg-light border">@(item.TipoCliente == "PJ" ? "Pessoa Jurídica" : "Pessoa Física")</span></td>
+                                <td class="text-muted">@item.Documento</td>
+                                <td class="text-muted">@item.Cidade</td>
+                                <td class="text-muted">@item.Estado</td>
+                                <td class="text-end">
+                                    <div class="crud-row-actions">
+                                        <a class="btn btn-sm btn-outline-primary" href="#" data-modal-url="@Url.Action("Edit", new { id = item.IdPessoa })" title="Editar"><i class="bi bi-pencil-square"></i><span class="visually-hidden">Editar</span></a>
+                                        <a class="btn btn-sm btn-outline-danger" href="#" data-modal-url="@Url.Action("Delete", new { id = item.IdPessoa })" title="Excluir"><i class="bi bi-trash3"></i><span class="visually-hidden">Excluir</span></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (totalPaginas > 1)
+            {
+                <nav class="p-3 border-top" aria-label="Paginação de clientes">
+                    <ul class="pagination justify-content-end mb-0">
+                        <li class="page-item @(page == 1 ? "disabled" : "")"><a class="page-link" asp-action="Index" asp-route-page="@(page - 1)" asp-route-pageSize="@pageSize" asp-route-search="@search">Anterior</a></li>
+                        @for (var pagina = 1; pagina <= totalPaginas; pagina++)
+                        {
+                            <li class="page-item @(pagina == page ? "active" : "")"><a class="page-link" asp-action="Index" asp-route-page="@pagina" asp-route-pageSize="@pageSize" asp-route-search="@search">@pagina</a></li>
+                        }
+                        <li class="page-item @(page == totalPaginas ? "disabled" : "")"><a class="page-link" asp-action="Index" asp-route-page="@(page + 1)" asp-route-pageSize="@pageSize" asp-route-search="@search">Próxima</a></li>
+                    </ul>
+                </nav>
+            }
+        }
+    </div>
+</section>
+
+<div id="operationMessage" class="position-fixed top-0 end-0 p-3" style="z-index: 1080;"></div>
+<div class="modal fade" id="clienteModal" tabindex="-1" aria-labelledby="clienteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content" id="clienteModalContent"></div></div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/cliente.js" asp-append-version="true"></script>
+}
