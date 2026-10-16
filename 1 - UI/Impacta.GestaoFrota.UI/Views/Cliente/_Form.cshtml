@@ -45,16 +45,34 @@
 <div class="row">
     <div class="col-md-4 mb-3">
         <label asp-for="TipoCliente" class="form-label">Tipo de pessoa</label>
-        <select asp-for="TipoCliente" class="form-select" data-tipo-cliente>
-            <option value="">Selecione</option>
-            <option value="PF">Pessoa Física</option>
-            <option value="PJ">Pessoa Jurídica</option>
-        </select>
+        @if (Model.IdPessoa > 0)
+        {
+            <select asp-for="TipoCliente" class="form-select" data-tipo-cliente disabled>
+                <option value="PF">Pessoa Física</option>
+                <option value="PJ">Pessoa Jurídica</option>
+            </select>
+            <input asp-for="TipoCliente" type="hidden" />
+        }
+        else
+        {
+            <select asp-for="TipoCliente" class="form-select" data-tipo-cliente>
+                <option value="">Selecione</option>
+                <option value="PF">Pessoa Física</option>
+                <option value="PJ">Pessoa Jurídica</option>
+            </select>
+        }
         <span asp-validation-for="TipoCliente" class="text-danger"></span>
     </div>
     <div class="col-md-5 mb-3">
         <label asp-for="Documento" class="form-label" data-documento-label>CPF</label>
-        <input asp-for="Documento" class="form-control" inputmode="numeric" autocomplete="off" data-documento-cliente data-val-documentocliente="Informe um CPF ou CNPJ válido para o tipo selecionado." placeholder="000.000.000-00" />
+        @if (Model.IdPessoa > 0)
+        {
+            <input asp-for="Documento" class="form-control" inputmode="numeric" autocomplete="off" data-documento-cliente data-val-documentocliente="Informe um CPF ou CNPJ válido para o tipo selecionado." placeholder="000.000.000-00" readonly />
+        }
+        else
+        {
+            <input asp-for="Documento" class="form-control" inputmode="numeric" autocomplete="off" data-documento-cliente data-val-documentocliente="Informe um CPF ou CNPJ válido para o tipo selecionado." placeholder="000.000.000-00" />
+        }
         <span asp-validation-for="Documento" class="text-danger"></span>
     </div>
     <div class="col-md-3 mb-3">

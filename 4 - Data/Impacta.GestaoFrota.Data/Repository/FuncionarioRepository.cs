@@ -12,6 +12,11 @@ public class FuncionarioRepository : Repository<Funcionario>, IFuncionarioReposi
     {
     }
 
+    public bool ExisteCpf(string cpf)
+    {
+        return DbSet.Any(funcionario => funcionario.Cpf == cpf);
+    }
+
     public override bool Adicionar(Funcionario funcionario)
     {
         using var transaction = db.Database.BeginTransaction();

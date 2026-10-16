@@ -12,6 +12,16 @@ public class ClienteRepository : Repository<Pessoa>, IClienteRepository
     {
     }
 
+    public bool ExisteCpf(string cpf)
+    {
+        return DbSet.Any(pessoa => pessoa.Cpf == cpf);
+    }
+
+    public bool ExisteCnpj(string cnpj)
+    {
+        return DbSet.Any(pessoa => pessoa.Cnpj == cnpj);
+    }
+
     public override bool Atualizar(Pessoa pessoa)
     {
         try

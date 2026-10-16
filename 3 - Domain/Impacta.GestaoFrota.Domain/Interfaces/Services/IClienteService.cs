@@ -8,6 +8,10 @@ public interface IClienteService
 
     IEnumerable<Pessoa> ObterTodos();
 
+    bool ExisteCpf(string cpf);
+
+    bool ExisteCnpj(string cnpj);
+
     bool Adicionar(Pessoa pessoa);
 
     bool Atualizar(Pessoa pessoa);

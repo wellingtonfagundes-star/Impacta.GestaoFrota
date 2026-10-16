@@ -23,6 +23,11 @@ public class FuncionarioService : IFuncionarioService
         return _repository.ObterTodos();
     }
 
+    public bool ExisteCpf(string cpf)
+    {
+        return _repository.ExisteCpf(cpf);
+    }
+
     public bool Adicionar(Funcionario funcionario)
     {
         ArgumentNullException.ThrowIfNull(funcionario);

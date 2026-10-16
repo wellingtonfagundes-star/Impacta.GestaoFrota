@@ -32,8 +32,12 @@ public class FuncionarioAppService : IFuncionarioAppService
     {
         try
         {
+            var cpf = NormalizarCpf(viewModel.Cpf);
+            if (_service.ExisteCpf(cpf))
+                return false;
+
             var funcionario = _mapper.Map<Funcionario>(viewModel);
-            funcionario.Cpf = NormalizarCpf(viewModel.Cpf);
+            funcionario.Cpf = cpf;
             return _service.Adicionar(funcionario);
         }
         catch
@@ -50,8 +54,9 @@ public class FuncionarioAppService : IFuncionarioAppService
             if (funcionario is null)
                 return false;
 
+            var cpfExistente = funcionario.Cpf;
             _mapper.Map(viewModel, funcionario);
-            funcionario.Cpf = NormalizarCpf(viewModel.Cpf);
+            funcionario.Cpf = cpfExistente;
             return _service.Atualizar(funcionario);
         }
         catch

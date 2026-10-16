@@ -23,6 +23,16 @@ public class ClienteService : IClienteService
         return _repository.ObterTodos();
     }
 
+    public bool ExisteCpf(string cpf)
+    {
+        return _repository.ExisteCpf(cpf);
+    }
+
+    public bool ExisteCnpj(string cnpj)
+    {
+        return _repository.ExisteCnpj(cnpj);
+    }
+
     public bool Adicionar(Pessoa pessoa)
     {
         ArgumentNullException.ThrowIfNull(pessoa);

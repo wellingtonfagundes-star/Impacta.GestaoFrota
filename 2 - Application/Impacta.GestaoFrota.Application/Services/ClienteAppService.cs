@@ -32,6 +32,13 @@ public class ClienteAppService : IClienteAppService
     {
         try
         {
+            var documento = new string(viewModel.Documento.Where(char.IsAsciiDigit).ToArray());
+            var documentoJaCadastrado = viewModel.TipoCliente == "PF"
+                ? _service.ExisteCpf(documento)
+                : _service.ExisteCnpj(documento);
+            if (documentoJaCadastrado)
+                return false;
+
             var pessoa = _mapper.Map<Pessoa>(viewModel);
             AplicarDocumento(pessoa, viewModel);
             pessoa.DataCriacao = DateOnly.FromDateTime(DateTime.Today);
@@ -51,8 +58,13 @@ public class ClienteAppService : IClienteAppService
             if (pessoa is null)
                 return false;
 
+            var tipoClienteExistente = pessoa.TipoCliente;
+            var cpfExistente = pessoa.Cpf;
+            var cnpjExistente = pessoa.Cnpj;
             _mapper.Map(viewModel, pessoa);
-            AplicarDocumento(pessoa, viewModel);
+            pessoa.TipoCliente = tipoClienteExistente;
+            pessoa.Cpf = cpfExistente;
+            pessoa.Cnpj = cnpjExistente;
             pessoa.DataUltAlteracao = DateOnly.FromDateTime(DateTime.Today);
             return _service.Atualizar(pessoa);
         }

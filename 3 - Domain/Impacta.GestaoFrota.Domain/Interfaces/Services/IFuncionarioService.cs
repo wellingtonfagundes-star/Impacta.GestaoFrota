@@ -8,6 +8,8 @@ public interface IFuncionarioService
 
     IEnumerable<Funcionario> ObterTodos();
 
+    bool ExisteCpf(string cpf);
+
     bool Adicionar(Funcionario funcionario);
 
     bool Atualizar(Funcionario funcionario);
