@@ -29,6 +29,7 @@ public class FuncionarioMapping : IEntityTypeConfiguration<Funcionario>
             .HasMaxLength(70)
             .HasColumnName("cidade");
         builder.Property(e => e.Cpf)
+            .HasColumnType("character varying(11)")
             .HasMaxLength(11)
             .HasColumnName("cpf");
         builder.Property(e => e.DataCriacao)

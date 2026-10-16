@@ -32,7 +32,7 @@ public class ClienteAppService : IClienteAppService
     {
         try
         {
-            var documento = new string(viewModel.Documento.Where(char.IsAsciiDigit).ToArray());
+            var documento = NormalizarDocumento(viewModel.Documento, viewModel.TipoCliente);
             var documentoJaCadastrado = viewModel.TipoCliente == "PF"
                 ? _service.ExisteCpf(documento)
                 : _service.ExisteCnpj(documento);
@@ -88,8 +88,18 @@ public class ClienteAppService : IClienteAppService
 
     private static void AplicarDocumento(Pessoa pessoa, ClienteViewModel viewModel)
     {
-        var documento = new string(viewModel.Documento.Where(char.IsAsciiDigit).ToArray());
+        var documento = NormalizarDocumento(viewModel.Documento, viewModel.TipoCliente);
         pessoa.Cpf = viewModel.TipoCliente == "PF" ? documento : null;
         pessoa.Cnpj = viewModel.TipoCliente == "PJ" ? documento : null;
+    }
+
+    private static string NormalizarDocumento(string documento, string tipoCliente)
+    {
+        return tipoCliente == "PF"
+            ? new string(documento.Where(char.IsAsciiDigit).ToArray())
+            : new string(documento
+                .Where(char.IsAsciiLetterOrDigit)
+                .Select(char.ToUpperInvariant)
+                .ToArray());
     }
 }

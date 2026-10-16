@@ -29,8 +29,9 @@ public class FuncionarioViewModel
     [RegularExpression("^(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)$", ErrorMessage = "Selecione uma sigla de estado válida.")]
     public string Estado { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "Informe o CEP.")]
     [StringLength(15, ErrorMessage = "O CEP não pode ter mais de 15 caracteres.")]
-    public string? Cep { get; set; }
+    public string Cep { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Informe o sexo.")]
     [RegularExpression("^[MF]$", ErrorMessage = "Selecione Masculino ou Feminino.")]

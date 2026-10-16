@@ -27,8 +27,9 @@ public class ClienteViewModel
     [RegularExpression("^(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)$", ErrorMessage = "Selecione uma sigla de estado válida.")]
     public string Estado { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "Informe o CEP.")]
     [StringLength(15, ErrorMessage = "O CEP não pode ter mais de 15 caracteres.")]
-    public string? Cep { get; set; }
+    public string Cep { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Informe o sexo.")]
     [RegularExpression("^[MF]$", ErrorMessage = "Selecione Masculino ou Feminino.")]
@@ -39,6 +40,7 @@ public class ClienteViewModel
     public string TipoCliente { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Informe o CPF ou CNPJ.")]
+    [StringLength(18, ErrorMessage = "O documento não pode ter mais de 18 caracteres.")]
     [DocumentoClienteValido]
     public string Documento { get; set; } = string.Empty;
 }
