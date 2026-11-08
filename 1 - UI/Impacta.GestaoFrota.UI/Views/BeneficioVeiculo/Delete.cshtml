@@ -1,0 +1,18 @@
+@model Impacta.GestaoFrota.Application.ViewModel.VeiculoBeneficioViewModel
+
+@{
+    ViewData["Title"] = "Excluir benefício de veículo";
+}
+
+<section class="crud-page">
+    <div class="crud-header"><div><p class="crud-kicker">Parametrizações</p><h1 class="crud-title">Excluir benefício de veículo</h1></div></div>
+    <div class="crud-card p-4">
+        <p>Confirme a exclusão do benefício para <strong>@Model.VeiculoDescricao</strong>, beneficiado <strong>@Model.BeneficiadoNome</strong> e motorista <strong>@Model.MotoristaNome</strong>.</p>
+        <form asp-action="Delete" asp-route-id="@Model.IdBeneficio" method="post">
+            <div class="d-flex gap-2 justify-content-end">
+                <a asp-action="Index" class="btn btn-light">Cancelar</a>
+                <button type="submit" class="btn btn-danger">Excluir</button>
+            </div>
+        </form>
+    </div>
+</section>

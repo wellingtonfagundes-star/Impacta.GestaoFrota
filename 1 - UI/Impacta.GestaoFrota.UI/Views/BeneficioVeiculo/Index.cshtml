@@ -1,0 +1,122 @@
+@model IEnumerable<Impacta.GestaoFrota.Application.ViewModel.VeiculoBeneficioViewModel>
+
+@{
+    ViewData["Title"] = "Benefíciários de Veículos";
+    var page = (int)(ViewBag.Page ?? 1);
+    var pageSize = (int)(ViewBag.PageSize ?? 10);
+    var totalRegistros = (int)(ViewBag.TotalRegistros ?? 0);
+    var totalPaginas = (int)(ViewBag.TotalPaginas ?? 1);
+    var search = (string)(ViewBag.Search ?? "");
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-gear me-2"></i>Parametrizações</p>
+            <h1 id="page-title" class="crud-title">Benefícios de Veículos</h1>
+            <p class="crud-subtitle">Gerencie os veículos disponibilizados aos beneficiados e seus motoristas.</p>
+        </div>
+        <a class="btn btn-primary crud-action" href="#" data-modal-url="@Url.Action("Create")">
+            <i class="bi bi-plus-circle me-2"></i>Novo benefício
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success crud-alert" role="alert">@successMessage</div>
+    }
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger crud-alert" role="alert">@errorMessage</div>
+    }
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-car-front-fill"></i></span><span>Benefícios cadastrados</span></div>
+            <span class="crud-count">@totalRegistros registros</span>
+        </div>
+        <div class="card-body border-bottom">
+            <form asp-action="Index" asp-route-pageSize="@pageSize" method="get" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control form-control-sm" placeholder="Pesquisar veículo, beneficiado ou motorista..." value="@search" aria-label="Pesquisar benefícios">
+                <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-search"></i><span class="ms-1 d-none d-md-inline">Pesquisar</span></button>
+                @if (!string.IsNullOrWhiteSpace(search))
+                {
+                    <a asp-action="Index" asp-route-pageSize="@pageSize" class="btn btn-outline-secondary btn-sm">Limpar</a>
+                }
+            </form>
+        </div>
+
+        @if (Model is null || !Model.Any())
+        {
+            <div class="crud-empty">
+                <i class="bi bi-inbox"></i>
+                <h2>Nenhum benefício cadastrado</h2>
+                <p>Adicione um benefício para associar um veículo a um beneficiado e motorista.</p>
+                <a class="btn btn-outline-primary" href="#" data-modal-url="@Url.Action("Create")">Cadastrar benefício</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table crud-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Veículo</th>
+                            <th>Beneficiado</th>
+                            <th>Motorista</th>
+                            <th>Entrega</th>
+                            <th>Devolução</th>
+                            <th class="text-center">Uso FDS</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@item.VeiculoDescricao</td>
+                                <td>@item.BeneficiadoNome</td>
+                                <td>@item.MotoristaNome</td>
+                                <td>@(item.DataEntrega?.ToString("dd/MM/yyyy") ?? "—")</td>
+                                <td>@(item.DataDevolucao?.ToString("dd/MM/yyyy") ?? "—")</td>
+                                <td class="text-center">@(item.UsoFds ? "Sim" : "Não")</td>
+                                <td class="text-end">
+                                    <div class="crud-row-actions">
+                                        <a class="btn btn-sm btn-outline-primary" href="#" data-modal-url="@Url.Action("Edit", new { id = item.IdBeneficio })" title="Editar"><i class="bi bi-pencil-square"></i><span class="visually-hidden">Editar</span></a>
+                                        <a class="btn btn-sm btn-outline-danger" href="#" data-modal-url="@Url.Action("Delete", new { id = item.IdBeneficio })" title="Excluir"><i class="bi bi-trash3"></i><span class="visually-hidden">Excluir</span></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (totalPaginas > 1)
+            {
+                <nav class="p-3 border-top" aria-label="Paginação de benefícios">
+                    <ul class="pagination justify-content-end mb-0">
+                        <li class="page-item @(page == 1 ? "disabled" : "")"><a class="page-link" asp-action="Index" asp-route-page="@(page - 1)" asp-route-pageSize="@pageSize" asp-route-search="@search">Anterior</a></li>
+                        @for (var pagina = 1; pagina <= totalPaginas; pagina++)
+                        {
+                            <li class="page-item @(pagina == page ? "active" : "")"><a class="page-link" asp-action="Index" asp-route-page="@pagina" asp-route-pageSize="@pageSize" asp-route-search="@search">@pagina</a></li>
+                        }
+                        <li class="page-item @(page == totalPaginas ? "disabled" : "")"><a class="page-link" asp-action="Index" asp-route-page="@(page + 1)" asp-route-pageSize="@pageSize" asp-route-search="@search">Próxima</a></li>
+                    </ul>
+                </nav>
+            }
+        }
+    </div>
+</section>
+
+<div id="operationMessage" class="position-fixed top-0 end-0 p-3" style="z-index: 1080;"></div>
+<div class="modal fade" id="beneficioVeiculoModal" tabindex="-1" aria-labelledby="beneficioVeiculoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" id="beneficioVeiculoModalContent"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/beneficio-veiculo.js" asp-append-version="true"></script>
+}

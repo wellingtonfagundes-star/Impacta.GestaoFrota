@@ -1,0 +1,71 @@
+@model Impacta.GestaoFrota.Application.ViewModel.VeiculoBeneficioViewModel
+@using Impacta.GestaoFrota.Application.ViewModel
+
+@{
+    var pessoas = ViewBag.Pessoas as IEnumerable<PessoaOpcaoViewModel> ?? Enumerable.Empty<PessoaOpcaoViewModel>();
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<input asp-for="IdBeneficio" type="hidden" />
+
+<div class="mb-3">
+    <label asp-for="IdVeiculo" class="form-label">Veículo <span class="text-danger">*</span></label>
+    <select asp-for="IdVeiculo" asp-items="ViewBag.Veiculos" class="form-select">
+        <option value="0">-- Selecione um veículo --</option>
+    </select>
+    <span asp-validation-for="IdVeiculo" class="small text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="BeneficiadoSelecao" class="form-label">Beneficiado <span class="text-danger">*</span></label>
+        <input asp-for="BeneficiadoSelecao" class="form-control" list="beneficiadosList" autocomplete="off" required placeholder="Digite para pesquisar uma pessoa" />
+        <datalist id="beneficiadosList">
+            @foreach (var pessoa in pessoas)
+            {
+                <option value="@pessoa.Rotulo" data-pessoa-id="@pessoa.IdPessoa"></option>
+            }
+        </datalist>
+        <input asp-for="IdBeneficiado" type="hidden" />
+        <span asp-validation-for="IdBeneficiado" class="small text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label asp-for="MotoristaSelecao" class="form-label">Motorista <span class="text-danger">*</span></label>
+        <input asp-for="MotoristaSelecao" class="form-control" list="motoristasList" autocomplete="off" required placeholder="Digite para pesquisar uma pessoa" />
+        <datalist id="motoristasList">
+            @foreach (var pessoa in pessoas)
+            {
+                <option value="@pessoa.Rotulo" data-pessoa-id="@pessoa.IdPessoa"></option>
+            }
+        </datalist>
+        <input asp-for="IdMotorista" type="hidden" />
+        <span asp-validation-for="IdMotorista" class="small text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="DataEntrega" class="form-label">Data de entrega</label>
+        <input asp-for="DataEntrega" type="date" class="form-control" />
+        <span asp-validation-for="DataEntrega" class="small text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label asp-for="DataDevolucao" class="form-label">Data de devolução</label>
+        <input asp-for="DataDevolucao" type="date" class="form-control" />
+        <span asp-validation-for="DataDevolucao" class="small text-danger"></span>
+    </div>
+</div>
+
+<div class="row align-items-center">
+    <div class="col-md-6 mb-3">
+        <label asp-for="LocalVaga" class="form-label">Local da vaga</label>
+        <input asp-for="LocalVaga" class="form-control" maxlength="100" />
+        <span asp-validation-for="LocalVaga" class="small text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="form-check mt-4">
+            <input asp-for="UsoFds" class="form-check-input" />
+            <label asp-for="UsoFds" class="form-check-label">Permite uso aos finais de semana</label>
+        </div>
+    </div>
+</div>

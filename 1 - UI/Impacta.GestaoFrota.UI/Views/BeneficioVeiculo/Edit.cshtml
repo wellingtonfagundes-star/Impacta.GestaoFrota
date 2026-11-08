@@ -1,0 +1,23 @@
+@model Impacta.GestaoFrota.Application.ViewModel.VeiculoBeneficioViewModel
+
+@{
+    ViewData["Title"] = "Editar benefício de veículo";
+}
+
+<section class="crud-page">
+    <div class="crud-header"><div><p class="crud-kicker">Parametrizações</p><h1 class="crud-title">Editar benefício de veículo</h1></div></div>
+    <div class="crud-card p-4">
+        <form asp-action="Edit" asp-route-id="@Model.IdBeneficio" method="post" data-person-form>
+            <partial name="_Form" model="Model" />
+            <div class="d-flex gap-2 justify-content-end">
+                <a asp-action="Index" class="btn btn-light">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Salvar alterações</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/beneficio-veiculo.js" asp-append-version="true"></script>
+}
