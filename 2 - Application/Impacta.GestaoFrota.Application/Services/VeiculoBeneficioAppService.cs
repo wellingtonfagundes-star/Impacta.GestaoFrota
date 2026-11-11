@@ -108,8 +108,8 @@ public class VeiculoBeneficioAppService : IVeiculoBeneficioAppService
             VeiculoDescricao = $"{beneficio.IdVeiculoNavigation.Placa} | {beneficio.IdVeiculoNavigation.Nome}",
             BeneficiadoNome = beneficio.IdBeneficiadoNavigation.Nome,
             MotoristaNome = beneficio.IdMotoristaNavigation.Nome,
-            BeneficiadoSelecao = $"{beneficio.IdBeneficiadoNavigation.Nome} | {beneficio.IdBeneficiado}",
-            MotoristaSelecao = $"{beneficio.IdMotoristaNavigation.Nome} | {beneficio.IdMotorista}"
+            BeneficiadoSelecao = beneficio.IdBeneficiadoNavigation.Nome,
+            MotoristaSelecao = beneficio.IdMotoristaNavigation.Nome
         };
     }
 }

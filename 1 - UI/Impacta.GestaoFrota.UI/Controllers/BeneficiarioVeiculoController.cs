@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Impacta.GestaoFrota.UI.Controllers;
 
-public class BeneficioVeiculoController : Controller
+public class BeneficiarioVeiculoController : Controller
 {
     private readonly IVeiculoBeneficioAppService _appService;
 
-    public BeneficioVeiculoController(IVeiculoBeneficioAppService appService)
+    public BeneficiarioVeiculoController(IVeiculoBeneficioAppService appService)
     {
         _appService = appService;
     }

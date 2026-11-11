@@ -15,6 +15,7 @@ public class VeiculoBeneficioViewModel
     [Range(1, int.MaxValue, ErrorMessage = "Selecione o motorista.")]
     public int IdMotorista { get; set; }
 
+    [Required(ErrorMessage = "Informe a data de entrega do veículo.")]
     [DataType(DataType.Date)]
     public DateOnly? DataEntrega { get; set; }
 
@@ -37,7 +38,7 @@ public class PessoaOpcaoViewModel
 {
     public int IdPessoa { get; set; }
     public string Nome { get; set; } = string.Empty;
-    public string Rotulo => $"{Nome} | {IdPessoa}";
+    public string Rotulo => Nome;
 }
 
 public class VeiculoOpcaoViewModel
