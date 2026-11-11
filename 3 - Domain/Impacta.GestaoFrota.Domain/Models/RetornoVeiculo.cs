@@ -9,11 +9,11 @@ public partial class RetornoVeiculo
 
     public int IdVeiculo { get; set; }
 
-    public int IdLocalRetorno { get; set; }
+    public int? IdLocalRetorno { get; set; }
 
     public int IdReserva { get; set; }
 
-    public int IdStatus { get; set; }
+    public int? IdStatus { get; set; }
 
     public DateOnly? DataRetirada { get; set; }
 
@@ -21,11 +21,11 @@ public partial class RetornoVeiculo
 
     public decimal? KmRetorno { get; set; }
 
-    public virtual Local IdLocalRetornoNavigation { get; set; } = null!;
+    public virtual Local? IdLocalRetornoNavigation { get; set; }
 
     public virtual ReservaVeiculo IdReservaNavigation { get; set; } = null!;
 
-    public virtual StatusVeiculo IdStatusNavigation { get; set; } = null!;
+    public virtual StatusVeiculo? IdStatusNavigation { get; set; }
 
     public virtual Veiculo IdVeiculoNavigation { get; set; } = null!;
 }

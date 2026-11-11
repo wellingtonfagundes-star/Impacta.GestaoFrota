@@ -1,0 +1,161 @@
+@model Impacta.GestaoFrota.Application.ViewModel.ReservaVeiculoViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    var emEdicao = Model.IdReserva > 0;
+    var retornoInformado = emEdicao && Model.DataRetorno.HasValue;
+    var locais = (IEnumerable<SelectListItem>)ViewBag.Locais;
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<input asp-for="IdReserva" type="hidden" />
+<input asp-for="IdRetorno" type="hidden" />
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="IdVeiculo" class="form-label">Veículo</label>
+        <select asp-for="IdVeiculo" asp-items="(IEnumerable<SelectListItem>)ViewBag.Veiculos" class="form-select">
+            <option value="0">Selecione o veículo</option>
+        </select>
+        <span asp-validation-for="IdVeiculo" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Data" class="form-label">Data da reserva / retirada</label>
+        <input asp-for="Data" type="date" class="form-control" />
+        <span asp-validation-for="Data" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="IdLocalDestino" class="form-label">Local Destino</label>
+        <select asp-for="IdLocalDestino" asp-items="(IEnumerable<SelectListItem>)ViewBag.Locais" class="form-select">
+            <option value="0">Selecione o local de destino</option>
+        </select>
+        <span asp-validation-for="IdLocalDestino" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="IdClienteSolicitante" class="form-label">Solicitante</label>
+        <select asp-for="IdClienteSolicitante" asp-items="(IEnumerable<SelectListItem>)ViewBag.Pessoas" class="form-select">
+            <option value="0">Selecione o solicitante</option>
+        </select>
+        <span asp-validation-for="IdClienteSolicitante" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="IdFuncionarioAprovador" class="form-label">Aprovador</label>
+        <select asp-for="IdFuncionarioAprovador" asp-items="(IEnumerable<SelectListItem>)ViewBag.Funcionarios" class="form-select">
+            <option value="0">Selecione o aprovador</option>
+        </select>
+        <span asp-validation-for="IdFuncionarioAprovador" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="KmEstimada" class="form-label">KM estimada</label>
+        <input asp-for="KmEstimada" type="number" min="0" step="0.01" class="form-control" />
+        <span asp-validation-for="KmEstimada" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <div class="form-check form-switch mt-4">
+            <input asp-for="Aprovado" class="form-check-input" />
+            <label asp-for="Aprovado" class="form-check-label">Aprovado</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Motivo" class="form-label">Motivo</label>
+        <input asp-for="Motivo" class="form-control" />
+    </div>
+    <div class="col-12">
+        <div class="d-flex flex-wrap gap-4">
+            <div class="form-check"><input asp-for="Estacionamento" class="form-check-input" /><label asp-for="Estacionamento" class="form-check-label">Estacionamento</label></div>
+            <div class="form-check"><input asp-for="Capacete" class="form-check-input" /><label asp-for="Capacete" class="form-check-label">Capacete</label></div>
+            <div class="form-check"><input asp-for="Gps" class="form-check-input" /><label asp-for="Gps" class="form-check-label">GPS</label></div>
+            <div class="form-check"><input asp-for="EqpSeguranca" class="form-check-input" /><label asp-for="EqpSeguranca" class="form-check-label">Equipamento de segurança</label></div>
+            <div class="form-check"><input asp-for="Emergencia" class="form-check-input" /><label asp-for="Emergencia" class="form-check-label">Emergência</label></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <label asp-for="ObsGeral" class="form-label">Observação geral</label>
+        <textarea asp-for="ObsGeral" class="form-control" rows="3"></textarea>
+    </div>
+</div>
+
+<hr class="my-4" />
+<div class="row g-3 align-items-end">
+    <div class="col-md-6">
+        <label asp-for="DataRetorno" class="form-label">Data Retorno</label>
+        <input asp-for="DataRetorno" type="date" class="form-control" data-return-date disabled="@(!emEdicao)" />
+    </div>
+    <div class="col-md-6">
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#returnDetails" aria-expanded="@retornoInformado" aria-controls="returnDetails" data-return-toggle disabled="@(!retornoInformado)">
+            <i class="bi bi-clipboard2-check me-2"></i>Dados da devolução
+        </button>
+    </div>
+</div>
+<div class="collapse @(retornoInformado ? "show" : "") mt-3" id="returnDetails">
+    <div class="card card-body">
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label class="form-label" for="LocalRetornoNome">Local Retorno</label>
+                <div class="input-group">
+                    <input asp-for="LocalRetornoNome" id="LocalRetornoNome" class="form-control" disabled readonly />
+                    <input asp-for="IdLocalRetorno" type="hidden" id="IdLocalRetorno" />
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#localPickerModal" data-local-picker disabled="@(!retornoInformado)">
+                        Escolher Local
+                    </button>
+                </div>
+                <span asp-validation-for="IdLocalRetorno" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="KmEntregue" class="form-label">KM Entregue</label>
+                <input asp-for="KmEntregue" type="number" min="0" step="0.01" class="form-control" data-return-field disabled="@(!retornoInformado)" />
+                <span asp-validation-for="KmEntregue" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Combustivel" class="form-label">Combustível</label>
+                <input asp-for="Combustivel" maxlength="20" class="form-control" data-return-field disabled="@(!retornoInformado)" />
+                <span asp-validation-for="Combustivel" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Lataria" class="form-label">Lataria</label>
+                <input asp-for="Lataria" maxlength="100" class="form-control" data-return-field disabled="@(!retornoInformado)" />
+                <span asp-validation-for="Lataria" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Pneus" class="form-label">Pneus</label>
+                <input asp-for="Pneus" maxlength="50" class="form-control" data-return-field disabled="@(!retornoInformado)" />
+                <span asp-validation-for="Pneus" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="ObsRetorno" class="form-label">Observação da devolução</label>
+                <textarea asp-for="ObsRetorno" rows="3" class="form-control" data-return-field disabled="@(!retornoInformado)"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="localPickerModal" tabindex="-1" aria-labelledby="localPickerTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="localPickerTitle">Selecionar local de retorno</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead><tr><th>Código</th><th>Local</th><th class="text-end">Ação</th></tr></thead>
+                        <tbody>
+                            @foreach (var local in locais)
+                            {
+                                <tr>
+                                    <td>@local.Value</td>
+                                    <td>@local.Text</td>
+                                    <td class="text-end"><button type="button" class="btn btn-sm btn-primary" data-select-local data-id="@local.Value" data-name="@local.Text">Selecionar</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @if (!locais.Any())
+                {
+                    <p class="text-muted mb-0">Nenhum local cadastrado.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

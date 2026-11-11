@@ -58,6 +58,15 @@
                                 <li><a class="dropdown-item" asp-controller="LocalAssistencia" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i>Locais Assistência</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="movimentacoesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-sliders me-1"></i>Movimentações
+                            </a>
+                            <ul class="dropdown-menu app-dropdown" aria-labelledby="movimentacoesMenu">
+                       @*          <li><h6 class="dropdown-header">Configurações da frota</h6></li> *@
+                                <li><a class="dropdown-item" asp-controller="ReservaVeiculo" asp-action="Index"><i class="bi bi-calendar2-check-fill"></i>Reserva de Veículos</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <div class="navbar-status">
                         <span class="status-dot"></span>

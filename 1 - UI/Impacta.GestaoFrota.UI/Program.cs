@@ -43,6 +43,9 @@ builder.Services.AddScoped<IClienteAppService, ClienteAppService>();
 builder.Services.AddScoped<IVeiculoBeneficioRepository, VeiculoBeneficioRepository>();
 builder.Services.AddScoped<IVeiculoBeneficioService, VeiculoBeneficioService>();
 builder.Services.AddScoped<IVeiculoBeneficioAppService, VeiculoBeneficioAppService>();
+builder.Services.AddScoped<IReservaVeiculoRepository, ReservaVeiculoRepository>();
+builder.Services.AddScoped<IReservaVeiculoService, ReservaVeiculoService>();
+builder.Services.AddScoped<IReservaVeiculoAppService, ReservaVeiculoAppService>();
 
 var app = builder.Build();
 
