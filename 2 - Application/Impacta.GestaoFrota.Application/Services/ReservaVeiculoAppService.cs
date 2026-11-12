@@ -57,18 +57,22 @@ public class ReservaVeiculoAppService : IReservaVeiculoAppService
     public bool Atualizar(ReservaVeiculoViewModel viewModel)
     {
         var reserva = _service.ObterPorIdComRelacionamentos(viewModel.IdReserva);
-        if (reserva is null || !ReferenciasValidas(viewModel, viewModel.DataRetorno.HasValue))
+        if (reserva is null)
+            return false;
+
+        var retorno = reserva.RetornoVeiculos.FirstOrDefault() ?? new RetornoVeiculo();
+        var dataRetorno = retorno.DataRetorno ?? viewModel.DataRetorno;
+        if (!ReferenciasValidas(viewModel, dataRetorno.HasValue))
             return false;
 
         AtualizarReserva(reserva, viewModel);
-        var retorno = reserva.RetornoVeiculos.FirstOrDefault() ?? new RetornoVeiculo();
         retorno.IdVeiculo = viewModel.IdVeiculo;
         retorno.DataRetirada = viewModel.Data;
-        retorno.DataRetorno = viewModel.DataRetorno;
-        retorno.IdLocalRetorno = viewModel.DataRetorno.HasValue ? viewModel.IdLocalRetorno : null;
-        retorno.KmRetorno = viewModel.DataRetorno.HasValue ? viewModel.KmEntregue : null;
+        retorno.DataRetorno = dataRetorno;
+        retorno.IdLocalRetorno = dataRetorno.HasValue ? viewModel.IdLocalRetorno : null;
+        retorno.KmRetorno = dataRetorno.HasValue ? viewModel.KmEntregue : null;
 
-        if (viewModel.DataRetorno.HasValue)
+        if (dataRetorno.HasValue)
         {
             var status = retorno.IdStatusNavigation ?? new StatusVeiculo();
             status.KmEntregue = (double)viewModel.KmEntregue!.Value;
@@ -158,6 +162,7 @@ public class ReservaVeiculoAppService : IReservaVeiculoAppService
             VeiculoNome = veiculo?.Nome ?? string.Empty,
             VeiculoPlaca = veiculo?.Placa ?? string.Empty,
             ClienteNome = reserva.IdClienteSolicitanteNavigation?.Nome ?? string.Empty,
+            FuncionarioAprovadorNome = reserva.IdFuncionarioAprovadorNavigation?.Nome ?? string.Empty,
             LocalDestinoNome = reserva.IdLocalDestinoNavigation?.Nome ?? string.Empty,
             LocalRetornoNome = retorno?.IdLocalRetornoNavigation?.Nome ?? string.Empty,
             KmRetorno = retorno?.KmRetorno

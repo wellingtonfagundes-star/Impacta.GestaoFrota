@@ -18,6 +18,7 @@ public class ReservaVeiculoRepository : IReservaVeiculoRepository
     {
         return _db.ReservaVeiculos.AsNoTracking()
             .Include(item => item.IdClienteSolicitanteNavigation)
+            .Include(item => item.IdFuncionarioAprovadorNavigation)
             .Include(item => item.IdLocalDestinoNavigation)
             .Include(item => item.RetornoVeiculos)
                 .ThenInclude(item => item.IdLocalRetornoNavigation)

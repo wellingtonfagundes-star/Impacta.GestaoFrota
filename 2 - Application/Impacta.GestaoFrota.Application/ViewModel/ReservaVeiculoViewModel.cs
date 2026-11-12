@@ -47,6 +47,7 @@ public class ReservaVeiculoViewModel
     public string VeiculoNome { get; set; } = string.Empty;
     public string VeiculoPlaca { get; set; } = string.Empty;
     public string ClienteNome { get; set; } = string.Empty;
+    public string FuncionarioAprovadorNome { get; set; } = string.Empty;
     public string LocalDestinoNome { get; set; } = string.Empty;
     public string LocalRetornoNome { get; set; } = string.Empty;
     public decimal? KmRetorno { get; set; }

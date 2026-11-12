@@ -78,7 +78,15 @@
 <div class="row g-3 align-items-end">
     <div class="col-md-6">
         <label asp-for="DataRetorno" class="form-label">Data Retorno</label>
-        <input asp-for="DataRetorno" type="date" class="form-control" data-return-date disabled="@(!emEdicao)" />
+        @if (retornoInformado)
+        {
+            <input type="date" class="form-control" value="@Model.DataRetorno?.ToString("yyyy-MM-dd")" data-return-date disabled />
+            <input asp-for="DataRetorno" type="hidden" />
+        }
+        else
+        {
+            <input asp-for="DataRetorno" type="date" class="form-control" data-return-date disabled="@(!emEdicao)" />
+        }
     </div>
     <div class="col-md-6">
         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#returnDetails" aria-expanded="@retornoInformado" aria-controls="returnDetails" data-return-toggle disabled="@(!retornoInformado)">

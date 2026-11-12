@@ -48,6 +48,7 @@
                             <th>Código</th>
                             <th>Veículo</th>
                             <th>Cliente</th>
+                            <th>Funcionário Aprovador</th>
                             <th>Local Destino</th>
                             <th>Data</th>
                             <th>Local Retorno</th>
@@ -63,6 +64,7 @@
                                 <td class="fw-semibold">@item.IdReserva</td>
                                 <td>@item.VeiculoNome - @item.VeiculoPlaca</td>
                                 <td>@item.ClienteNome</td>
+                                <td>@item.FuncionarioAprovadorNome</td>
                                 <td>@item.LocalDestinoNome</td>
                                 <td>@item.Data?.ToString("dd/MM/yyyy")</td>
                                 <td>@(string.IsNullOrWhiteSpace(item.LocalRetornoNome) ? "—" : item.LocalRetornoNome)</td>

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const setReturnEnabled = (clearFields) => {
-        const enabled = !returnDate.disabled && Boolean(returnDate.value);
+        const enabled = Boolean(returnDate.value);
         returnToggle.disabled = !enabled;
         returnFields.forEach((field) => {
             field.disabled = !enabled;
