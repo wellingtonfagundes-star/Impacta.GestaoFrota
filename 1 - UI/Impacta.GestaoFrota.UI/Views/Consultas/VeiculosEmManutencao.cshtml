@@ -1,0 +1,59 @@
+@model IEnumerable<Impacta.GestaoFrota.Application.ViewModel.VeiculoEmManutencaoViewModel>
+
+@{
+    ViewData["Title"] = "Veículos em Manutenção";
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-wrench-adjustable-circle-fill me-2"></i>Consultas</p>
+            <h1 id="page-title" class="crud-title">Veículos em Manutenção</h1>
+            <p class="crud-subtitle">Veículos com status de frota MANUTENCAO.</p>
+        </div>
+        <button type="button" class="btn btn-outline-danger print-action" onclick="window.print()">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Imprimir PDF
+        </button>
+    </div>
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-car-front-fill"></i></span><span>Resultado da consulta</span></div>
+            <span class="crud-count">@Model.Count() veículos</span>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="crud-empty">
+                <i class="bi bi-inbox"></i>
+                <h2>Nenhum veículo em manutenção</h2>
+                <p>Não há veículos com status MANUTENCAO no momento.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table crud-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Placa</th>
+                            <th>Fabricante</th>
+                            <th>Ano Modelo</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var veiculo in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@veiculo.Placa</td>
+                                <td>@veiculo.Fabricante</td>
+                                <td>@veiculo.AnoModelo</td>
+                                <td>@veiculo.NomeStatus</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

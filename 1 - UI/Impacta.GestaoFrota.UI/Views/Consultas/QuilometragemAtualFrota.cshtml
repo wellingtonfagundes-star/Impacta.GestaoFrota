@@ -1,0 +1,39 @@
+@model Impacta.GestaoFrota.Application.ViewModel.QuilometragemAtualFrotaViewModel
+
+@{
+    ViewData["Title"] = "Quilometragem Atual da Frota";
+    var cultura = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-speedometer2 me-2"></i>Consultas</p>
+            <h1 id="page-title" class="crud-title">Quilometragem Atual da Frota</h1>
+            <p class="crud-subtitle">Resumo da quilometragem atual de todos os veículos da frota.</p>
+        </div>
+        <button type="button" class="btn btn-outline-danger print-action" onclick="window.print()">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Imprimir PDF
+        </button>
+    </div>
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-speedometer2"></i></span><span>Resultado da consulta</span></div>
+        </div>
+        <div class="row g-3 p-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-4 h-100">
+                    <p class="crud-kicker">KM total da frota</p>
+                    <p class="h2 mb-0">@Model.KmTotalFrota.ToString("N0", cultura) km</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-4 h-100">
+                    <p class="crud-kicker">KM média da frota</p>
+                    <p class="h2 mb-0">@Model.KmMediaFrota.ToString("N0", cultura) km</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
