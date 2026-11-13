@@ -46,6 +46,9 @@ builder.Services.AddScoped<IVeiculoBeneficioAppService, VeiculoBeneficioAppServi
 builder.Services.AddScoped<IReservaVeiculoRepository, ReservaVeiculoRepository>();
 builder.Services.AddScoped<IReservaVeiculoService, ReservaVeiculoService>();
 builder.Services.AddScoped<IReservaVeiculoAppService, ReservaVeiculoAppService>();
+builder.Services.AddScoped<IHistoricoManutencaoRepository, HistoricoManutencaoRepository>();
+builder.Services.AddScoped<IHistoricoManutencaoService, HistoricoManutencaoService>();
+builder.Services.AddScoped<IHistoricoManutencaoAppService, HistoricoManutencaoAppService>();
 
 var app = builder.Build();
 

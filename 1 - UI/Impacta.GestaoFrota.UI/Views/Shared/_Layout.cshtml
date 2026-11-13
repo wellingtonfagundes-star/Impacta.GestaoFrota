@@ -65,6 +65,15 @@
                             <ul class="dropdown-menu app-dropdown" aria-labelledby="movimentacoesMenu">
                        @*          <li><h6 class="dropdown-header">Configurações da frota</h6></li> *@
                                 <li><a class="dropdown-item" asp-controller="ReservaVeiculo" asp-action="Index"><i class="bi bi-calendar2-check-fill"></i>Reserva de Veículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="HistoricoManutencao" asp-action="Index"><i class="bi bi-wrench-adjustable-circle-fill"></i>Histórico Manutenções</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="consultasMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-search me-1"></i>Consultas
+                            </a>
+                            <ul class="dropdown-menu app-dropdown" aria-labelledby="consultasMenu">
+                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="VeiculosDisponiveis"><i class="bi bi-car-front-fill"></i>Veículos Disponíveis</a></li>
                             </ul>
                         </li>
                     </ul>

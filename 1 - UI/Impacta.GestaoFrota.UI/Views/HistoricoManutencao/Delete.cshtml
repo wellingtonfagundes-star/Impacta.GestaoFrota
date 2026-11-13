@@ -1,0 +1,30 @@
+@model Impacta.GestaoFrota.Application.ViewModel.HistoricoManutencaoViewModel
+
+@{
+    ViewData["Title"] = "Excluir Histórico de Manutenção";
+}
+
+<section class="crud-page">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-wrench-adjustable-circle-fill me-2"></i>Movimentações</p>
+            <h1 class="crud-title">Excluir Histórico #@Model.IdHistorico</h1>
+            <p class="crud-subtitle">Confirme a exclusão do registro de manutenção.</p>
+        </div>
+    </div>
+    <div class="crud-card p-4">
+        <p>Confirma a exclusão do evento <strong>@Model.DescrEvento</strong> de @Model.DataEvento?.ToString("dd/MM/yyyy")?</p>
+        <dl class="row">
+            <dt class="col-sm-3">Local</dt><dd class="col-sm-9">@Model.LocalNome</dd>
+            <dt class="col-sm-3">Tipo Evento</dt><dd class="col-sm-9">@Model.TipoEventoNome</dd>
+            <dt class="col-sm-3">Responsável</dt><dd class="col-sm-9">@Model.FuncionarioResponsavelNome</dd>
+            <dt class="col-sm-3">Cliente</dt><dd class="col-sm-9">@Model.ClienteNome</dd>
+        </dl>
+        <form asp-action="Delete" asp-route-id="@Model.IdHistorico" method="post">
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash3 me-2"></i>Excluir</button>
+            </div>
+        </form>
+    </div>
+</section>

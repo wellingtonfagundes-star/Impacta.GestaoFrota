@@ -1,0 +1,69 @@
+@model Impacta.GestaoFrota.Application.ViewModel.HistoricoManutencaoViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<input asp-for="IdHistorico" type="hidden" />
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="IdLocal" class="form-label">Local</label>
+        <select asp-for="IdLocal" asp-items="(IEnumerable<SelectListItem>)ViewBag.Locais" class="form-select" required>
+            <option value="0">Selecione o local</option>
+        </select>
+        <span asp-validation-for="IdLocal" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="IdTipoEvento" class="form-label">Tipo Evento</label>
+        <select asp-for="IdTipoEvento" asp-items="(IEnumerable<SelectListItem>)ViewBag.TiposEvento" class="form-select" required>
+            <option value="0">Selecione o tipo de evento</option>
+        </select>
+        <span asp-validation-for="IdTipoEvento" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="IdFuncionarioResponsavel" class="form-label">Responsável</label>
+        <select asp-for="IdFuncionarioResponsavel" asp-items="(IEnumerable<SelectListItem>)ViewBag.Funcionarios" class="form-select" required>
+            <option value="0">Selecione o responsável</option>
+        </select>
+        <span asp-validation-for="IdFuncionarioResponsavel" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="IdClienteAtendido" class="form-label">Cliente</label>
+        <select asp-for="IdClienteAtendido" asp-items="(IEnumerable<SelectListItem>)ViewBag.Clientes" class="form-select" required>
+            <option value="0">Selecione o cliente</option>
+        </select>
+        <span asp-validation-for="IdClienteAtendido" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="DataEvento" class="form-label">Data Evento</label>
+        <input asp-for="DataEvento" type="date" class="form-control" required />
+        <span asp-validation-for="DataEvento" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="DescrEvento" class="form-label">Descrição do Evento</label>
+        <input asp-for="DescrEvento" maxlength="50" class="form-control" required />
+        <span asp-validation-for="DescrEvento" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Quilometragem" class="form-label">KM</label>
+        <input asp-for="Quilometragem" type="number" min="0" step="0.01" class="form-control" required />
+        <span asp-validation-for="Quilometragem" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Valor" class="form-label">Valor</label>
+        <div class="input-group">
+            <span class="input-group-text">R$</span>
+            <input asp-for="Valor" type="number" min="0" step="0.01" class="form-control" onblur="if (this.value !== '') this.value = this.valueAsNumber.toFixed(2)" />
+        </div>
+        <span asp-validation-for="Valor" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="NrNotaFiscal" class="form-label">Nota Fiscal</label>
+        <input asp-for="NrNotaFiscal" type="number" min="1" step="1" class="form-control" required />
+        <span asp-validation-for="NrNotaFiscal" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Obs" class="form-label">Observação</label>
+        <textarea asp-for="Obs" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Obs" class="text-danger"></span>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+@model Impacta.GestaoFrota.Application.ViewModel.HistoricoManutencaoViewModel
+
+@{
+    ViewData["Title"] = "Novo Histórico de Manutenção";
+}
+
+<section class="crud-page">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-wrench-adjustable-circle-fill me-2"></i>Movimentações</p>
+            <h1 class="crud-title">Novo Histórico de Manutenção</h1>
+            <p class="crud-subtitle">Informe os dados do evento de manutenção.</p>
+        </div>
+    </div>
+    <div class="crud-card p-4">
+        <form asp-action="Create" method="post">
+            <partial name="_Form" model="Model" />
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-2"></i>Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -10,7 +10,7 @@ public class HistoricoMapping : IEntityTypeConfiguration<Historico>
     {
         builder.HasKey(e => e.IdHistorico).HasName("historico_pkey");
 
-        builder.ToTable("historico", "frota");
+        builder.ToTable("historico_manutencao", "frota");
 
         builder.HasIndex(e => e.IdClienteAtendido, "idx_hist_cliente");
 
@@ -32,7 +32,7 @@ public class HistoricoMapping : IEntityTypeConfiguration<Historico>
         builder.Property(e => e.IdClienteAtendido).HasColumnName("id_cliente_atendido");
         builder.Property(e => e.IdFuncionarioResponsavel).HasColumnName("id_funcionario_responsavel");
         builder.Property(e => e.IdLocal).HasColumnName("id_local");
-        builder.Property(e => e.IdTipoevento).HasColumnName("id_tipoevento");
+        builder.Property(e => e.IdTipoevento).HasColumnName("id_tipo_evento");
         builder.Property(e => e.NrNotaFiscal).HasColumnName("nr_nota_fiscal");
         builder.Property(e => e.Obs).HasColumnName("obs");
         builder.Property(e => e.Quilometragem).HasColumnName("quilometragem");
