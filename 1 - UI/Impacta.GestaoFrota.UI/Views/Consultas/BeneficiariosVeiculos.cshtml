@@ -1,0 +1,63 @@
+@model IEnumerable<Impacta.GestaoFrota.Application.ViewModel.BeneficiarioVeiculoConsultaViewModel>
+
+@{
+    ViewData["Title"] = "Beneficiários de Veículos";
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-person-vcard-fill me-2"></i>Consultas</p>
+            <h1 id="page-title" class="crud-title">Beneficiários de Veículos</h1>
+            <p class="crud-subtitle">Consulte beneficiários, motoristas e períodos de utilização dos veículos.</p>
+        </div>
+        <button type="button" class="btn btn-outline-danger print-action" onclick="window.print()">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Imprimir PDF
+        </button>
+    </div>
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-person-vcard"></i></span><span>Resultado da consulta</span></div>
+            <span class="crud-count">@Model.Count() benefícios</span>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="crud-empty">
+                <i class="bi bi-inbox"></i>
+                <h2>Nenhum benefício cadastrado</h2>
+                <p>Não há beneficiários de veículos para exibir.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table crud-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Beneficiado</th>
+                            <th>Motorista</th>
+                            <th>Placa</th>
+                            <th>Data de Entrega</th>
+                            <th>Data de Devolução</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@item.IdBeneficio</td>
+                                <td>@item.Beneficiado</td>
+                                <td>@item.Motorista</td>
+                                <td>@item.Placa</td>
+                                <td>@(item.DataEntrega?.ToString("dd/MM/yyyy") ?? "—")</td>
+                                <td>@(item.DataDevolucao?.ToString("dd/MM/yyyy") ?? "—")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,58 @@
+@model IEnumerable<Impacta.GestaoFrota.Application.ViewModel.RankingClienteReservasViewModel>
+
+@{
+    ViewData["Title"] = "Ranking de Clientes com Mais Reservas";
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-trophy-fill me-2"></i>Consultas</p>
+            <h1 id="page-title" class="crud-title">Ranking de Clientes com Mais Reservas</h1>
+            <p class="crud-subtitle">Clientes ordenados pela quantidade total de reservas realizadas.</p>
+        </div>
+        <button type="button" class="btn btn-outline-danger print-action" onclick="window.print()">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Imprimir PDF
+        </button>
+    </div>
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-trophy"></i></span><span>Resultado da consulta</span></div>
+            <span class="crud-count">@Model.Count() clientes</span>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="crud-empty">
+                <i class="bi bi-inbox"></i>
+                <h2>Nenhuma reserva registrada</h2>
+                <p>Não há clientes com reservas para exibir no ranking.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table crud-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Cliente</th>
+                            <th class="text-end">Total de Reservas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var posicao = 1; }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@(posicao++)</td>
+                                <td>@item.Nome</td>
+                                <td class="text-end">@item.TotalReservas.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"))</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

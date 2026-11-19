@@ -88,5 +88,62 @@ namespace Impacta.GestaoFrota.UI.Controllers
 
             return View(quilometragem);
         }
+
+        public IActionResult ValorTotalGastoPorTipoEvento()
+        {
+            var totais = (from historico in _db.Historicos.AsNoTracking()
+                          join tipoEvento in _db.TipoEventos.AsNoTracking()
+                              on historico.IdTipoevento equals tipoEvento.IdTipoevento
+                          group historico by tipoEvento.Nome into grupo
+                          orderby grupo.Sum(item => item.Valor) descending
+                          select new ValorTotalPorTipoEventoViewModel
+                          {
+                              Nome = grupo.Key,
+                              TotalGasto = grupo.Sum(item => item.Valor)
+                          })
+                .ToList();
+
+            return View(totais);
+        }
+
+        public IActionResult BeneficiariosVeiculos()
+        {
+            var beneficiarios = (from beneficio in _db.VeiculoBeneficios.AsNoTracking()
+                                 join beneficiado in _db.Pessoas.AsNoTracking()
+                                     on beneficio.IdBeneficiado equals beneficiado.IdPessoa
+                                 join motorista in _db.Pessoas.AsNoTracking()
+                                     on beneficio.IdMotorista equals motorista.IdPessoa
+                                 join veiculo in _db.Veiculos.AsNoTracking()
+                                     on beneficio.IdVeiculo equals veiculo.IdVeiculo
+                                 select new BeneficiarioVeiculoConsultaViewModel
+                                 {
+                                     IdBeneficio = beneficio.IdBeneficio,
+                                     Beneficiado = beneficiado.Nome,
+                                     Motorista = motorista.Nome,
+                                     Placa = veiculo.Placa,
+                                     DataEntrega = beneficio.DataEntrega,
+                                     DataDevolucao = beneficio.DataDevolucao
+                                 })
+                .ToList();
+
+            return View(beneficiarios);
+        }
+
+        public IActionResult RankingClientesComMaisReservas()
+        {
+            var ranking = (from reserva in _db.ReservaVeiculos.AsNoTracking()
+                           join pessoa in _db.Pessoas.AsNoTracking()
+                               on reserva.IdClienteSolicitante equals (int?)pessoa.IdPessoa
+                           group reserva by pessoa.Nome into grupo
+                           orderby grupo.Count() descending
+                           select new RankingClienteReservasViewModel
+                           {
+                               Nome = grupo.Key,
+                               TotalReservas = grupo.Count()
+                           })
+                .ToList();
+
+            return View(ranking);
+        }
     }
 }

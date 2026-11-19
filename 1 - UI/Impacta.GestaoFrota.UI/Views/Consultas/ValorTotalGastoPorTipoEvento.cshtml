@@ -1,0 +1,55 @@
+@model IEnumerable<Impacta.GestaoFrota.Application.ViewModel.ValorTotalPorTipoEventoViewModel>
+
+@{
+    ViewData["Title"] = "Valor Total Gasto por Tipo de Evento";
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-cash-coin me-2"></i>Consultas</p>
+            <h1 id="page-title" class="crud-title">Valor Total Gasto por Tipo de Evento</h1>
+            <p class="crud-subtitle">Total de gastos em manutenções agrupados por tipo de evento.</p>
+        </div>
+        <button type="button" class="btn btn-outline-danger print-action" onclick="window.print()">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Imprimir PDF
+        </button>
+    </div>
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-cash-coin"></i></span><span>Resultado da consulta</span></div>
+            <span class="crud-count">@Model.Count() tipos de evento</span>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="crud-empty">
+                <i class="bi bi-inbox"></i>
+                <h2>Nenhum gasto registrado</h2>
+                <p>Não há históricos de manutenção para exibir nesta consulta.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table crud-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Evento</th>
+                            <th class="text-end">Total Gasto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@item.Nome</td>
+                                <td class="text-end">@item.TotalGasto.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"))</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
