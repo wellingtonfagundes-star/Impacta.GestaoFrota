@@ -82,6 +82,15 @@
                                 <li><a class="dropdown-item" asp-controller="Consultas" asp-action="RankingClientesComMaisReservas"><i class="bi bi-trophy-fill"></i>Ranking de Clientes com Mais Reservas</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="relatoriosMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-file-earmark-bar-graph me-1"></i>Relatórios
+                            </a>
+                            <ul class="dropdown-menu app-dropdown" aria-labelledby="relatoriosMenu">
+                                <li><a class="dropdown-item" asp-controller="Relatorio" asp-action="QuantidadeVeiculosPorFabricante"><i class="bi bi-car-front-fill"></i>Quantidade de Veículos por Fabricante</a></li>
+                                <li><a class="dropdown-item" asp-controller="Relatorio" asp-action="UtilizacaoCompletaVeiculos"><i class="bi bi-clipboard-data"></i>Completo de Utilização dos Veículos</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <div class="navbar-status">
                         <span class="status-dot"></span>

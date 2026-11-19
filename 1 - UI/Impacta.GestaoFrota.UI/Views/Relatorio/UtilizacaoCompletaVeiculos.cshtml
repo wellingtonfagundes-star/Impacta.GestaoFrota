@@ -1,0 +1,35 @@
+@model Impacta.GestaoFrota.UI.Models.RelatorioPageViewModel
+
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-file-earmark-bar-graph me-2"></i>Relatórios</p>
+            <h1 id="page-title" class="crud-title">@Model.Titulo</h1>
+            <p class="crud-subtitle">Relatório de reservas e último evento dos veículos.</p>
+        </div>
+    </div>
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-car-front-fill"></i></span><span>Visualização do relatório PDF</span></div>
+        </div>
+        <div class="p-3">
+            <div class="d-flex flex-wrap gap-2 mb-3" aria-label="Opções de download">
+                <a href="@Model.XlsxUrl" class="btn btn-outline-success">
+                    <i class="bi bi-file-earmark-excel me-2"></i>Baixar Excel (.xlsx)
+                </a>
+                <a href="@Model.CsvUrl" class="btn btn-outline-primary">
+                    <i class="bi bi-filetype-csv me-2"></i>Baixar CSV
+                </a>
+                <a href="@Model.TextoUrl" class="btn btn-outline-secondary">
+                    <i class="bi bi-file-earmark-text me-2"></i>Baixar Texto (.txt)
+                </a>
+            </div>
+            <iframe src="@Model.PdfUrl" title="Relatório PDF: @Model.Titulo" class="w-100 border rounded" style="height: 75vh; min-height: 600px"></iframe>
+        </div>
+    </div>
+</section>
