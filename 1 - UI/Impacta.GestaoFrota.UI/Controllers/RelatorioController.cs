@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 using System.Text;
 using ClosedXML.Excel;
-using Impacta.GestaoFrota.Data.Context;
+using Impacta.GestaoFrota.Application.Interfaces;
+using Impacta.GestaoFrota.Application.ViewModel;
 using Impacta.GestaoFrota.UI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -14,16 +14,16 @@ namespace Impacta.GestaoFrota.UI.Controllers;
 public class RelatorioController : Controller
 {
     private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    private readonly FrotaContext _db;
+    private readonly IConsultaAppService _consultaAppService;
 
     static RelatorioController()
     {
         QuestPDF.Settings.License = LicenseType.Community;
     }
 
-    public RelatorioController(FrotaContext db)
+    public RelatorioController(IConsultaAppService consultaAppService)
     {
-        _db = db;
+        _consultaAppService = consultaAppService;
     }
 
     public IActionResult Index()
@@ -57,7 +57,7 @@ public class RelatorioController : Controller
 
     public IActionResult QuantidadeVeiculosPorFabricantePdf()
     {
-        var dados = ConsultarQuantidadeVeiculosPorFabricante();
+        var dados = _consultaAppService.ObterQuantidadeVeiculosPorFabricante();
         var linhas = dados.Select(item => new[]
         {
             item.Fabricante,
@@ -69,7 +69,7 @@ public class RelatorioController : Controller
 
     public IActionResult QuantidadeVeiculosPorFabricanteXlsx()
     {
-        var dados = ConsultarQuantidadeVeiculosPorFabricante()
+        var dados = _consultaAppService.ObterQuantidadeVeiculosPorFabricante()
             .Select(item => new object?[] { item.Fabricante, item.Quantidade });
 
         return BaixarXlsx("quantidade-veiculos-por-fabricante.xlsx", "Veículos por fabricante", ["Fabricante", "Quantidade"], dados);
@@ -77,7 +77,7 @@ public class RelatorioController : Controller
 
     public IActionResult QuantidadeVeiculosPorFabricanteCsv()
     {
-        var dados = ConsultarQuantidadeVeiculosPorFabricante()
+        var dados = _consultaAppService.ObterQuantidadeVeiculosPorFabricante()
             .Select(item => new object?[] { item.Fabricante, item.Quantidade });
 
         return BaixarCsv("quantidade-veiculos-por-fabricante.csv", ["Fabricante", "Quantidade"], dados);
@@ -85,7 +85,7 @@ public class RelatorioController : Controller
 
     public IActionResult QuantidadeVeiculosPorFabricanteTxt()
     {
-        var dados = ConsultarQuantidadeVeiculosPorFabricante()
+        var dados = _consultaAppService.ObterQuantidadeVeiculosPorFabricante()
             .Select(item => new object?[] { item.Fabricante, item.Quantidade });
 
         return BaixarTexto("quantidade-veiculos-por-fabricante.txt", ["Fabricante", "Quantidade"], dados);
@@ -93,7 +93,7 @@ public class RelatorioController : Controller
 
     public IActionResult UtilizacaoCompletaVeiculosPdf()
     {
-        var dados = ConsultarUtilizacaoCompletaVeiculos();
+        var dados = _consultaAppService.ObterUtilizacaoCompletaVeiculos();
         var linhas = dados.Select(item => new[]
         {
             item.Placa,
@@ -112,7 +112,7 @@ public class RelatorioController : Controller
 
     public IActionResult UtilizacaoCompletaVeiculosXlsx()
     {
-        var dados = ConsultarUtilizacaoCompletaVeiculos()
+        var dados = _consultaAppService.ObterUtilizacaoCompletaVeiculos()
             .Select(item => new object?[]
             {
                 item.Placa,
@@ -132,7 +132,7 @@ public class RelatorioController : Controller
 
     public IActionResult UtilizacaoCompletaVeiculosCsv()
     {
-        var dados = ConsultarUtilizacaoCompletaVeiculos()
+        var dados = _consultaAppService.ObterUtilizacaoCompletaVeiculos()
             .Select(item => new object?[]
             {
                 item.Placa,
@@ -151,7 +151,7 @@ public class RelatorioController : Controller
 
     public IActionResult UtilizacaoCompletaVeiculosTxt()
     {
-        var dados = ConsultarUtilizacaoCompletaVeiculos()
+        var dados = _consultaAppService.ObterUtilizacaoCompletaVeiculos()
             .Select(item => new object?[]
             {
                 item.Placa,
@@ -166,55 +166,6 @@ public class RelatorioController : Controller
             "utilizacao-completa-veiculos.txt",
             ["Placa", "Fabricante", "Ano Modelo", "Status", "Total Reservas", "Último Evento"],
             dados);
-    }
-
-    private List<QuantidadeFabricanteItem> ConsultarQuantidadeVeiculosPorFabricante()
-    {
-        return _db.Veiculos.AsNoTracking()
-            .GroupBy(item => item.Fabricante)
-            .Select(grupo => new QuantidadeFabricanteItem
-            {
-                Fabricante = grupo.Key,
-                Quantidade = grupo.Count()
-            })
-            .OrderByDescending(item => item.Quantidade)
-            .ToList();
-    }
-
-    private List<UtilizacaoVeiculoItem> ConsultarUtilizacaoCompletaVeiculos()
-    {
-        var consulta =
-            from veiculo in _db.Veiculos.AsNoTracking()
-            join status in _db.StatusFrota.AsNoTracking()
-                on veiculo.IdStatusFrota equals status.IdStatusFrota
-            join beneficio in _db.VeiculoBeneficios.AsNoTracking()
-                on veiculo.IdVeiculo equals beneficio.IdVeiculo into beneficios
-            from beneficio in beneficios.DefaultIfEmpty()
-            join reserva in _db.ReservaVeiculos.AsNoTracking()
-                on (int?)beneficio.IdBeneficiado equals reserva.IdClienteSolicitante into reservas
-            from reserva in reservas.DefaultIfEmpty()
-            join historico in _db.Historicos.AsNoTracking()
-                on (int?)beneficio.IdBeneficiado equals (int?)historico.IdClienteAtendido into historicos
-            from historico in historicos.DefaultIfEmpty()
-            group new { Reserva = reserva, Historico = historico } by new
-            {
-                veiculo.Placa,
-                veiculo.Fabricante,
-                veiculo.AnoModelo,
-                status.NomeStatus
-            } into grupo
-            orderby grupo.Count(item => item.Reserva != null) descending
-            select new UtilizacaoVeiculoItem
-            {
-                Placa = grupo.Key.Placa,
-                Fabricante = grupo.Key.Fabricante,
-                AnoModelo = grupo.Key.AnoModelo,
-                NomeStatus = grupo.Key.NomeStatus,
-                TotalReservas = grupo.Count(item => item.Reserva != null),
-                UltimoEvento = grupo.Max(item => item.Historico == null ? (DateOnly?)null : item.Historico.DataEvento)
-            };
-
-        return consulta.ToList();
     }
 
     private static byte[] GerarPdf(string titulo, IReadOnlyList<string> cabecalhos, IEnumerable<string[]> linhas)
@@ -389,19 +340,4 @@ public class RelatorioController : Controller
         return $"\"{valor.Replace("\"", "\"\"")}\"";
     }
 
-    private sealed class QuantidadeFabricanteItem
-    {
-        public string Fabricante { get; set; } = string.Empty;
-        public int Quantidade { get; set; }
-    }
-
-    private sealed class UtilizacaoVeiculoItem
-    {
-        public string Placa { get; set; } = string.Empty;
-        public string Fabricante { get; set; } = string.Empty;
-        public short AnoModelo { get; set; }
-        public string NomeStatus { get; set; } = string.Empty;
-        public int TotalReservas { get; set; }
-        public DateOnly? UltimoEvento { get; set; }
-    }
 }

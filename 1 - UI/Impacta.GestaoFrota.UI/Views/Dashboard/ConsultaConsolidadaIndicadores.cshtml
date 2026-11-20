@@ -1,0 +1,63 @@
+@model Impacta.GestaoFrota.Application.ViewModel.DashboardGerencialFrotaViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Gerencial da Frota";
+    var cultura = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
+}
+
+<section class="crud-page" aria-labelledby="page-title">
+    <div class="crud-header">
+        <div>
+            <p class="crud-kicker"><i class="bi bi-speedometer2 me-2"></i>Dashboards</p>
+            <h1 id="page-title" class="crud-title">Dashboard Gerencial da Frota</h1>
+            <p class="crud-subtitle">Consulta consolidada para indicadores.</p>
+        </div>
+        <button type="button" class="btn btn-outline-danger print-action" onclick="window.print()">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Imprimir PDF
+        </button>
+    </div>
+
+    <div class="crud-card">
+        <div class="crud-card-heading">
+            <div><span class="crud-card-icon"><i class="bi bi-bar-chart-line-fill"></i></span><span>Indicadores da frota</span></div>
+        </div>
+        <div class="row g-3 p-4">
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="h-100 rounded-3 border border-primary-subtle p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="fw-semibold text-primary">Total de Veículos</span>
+                        <i class="bi bi-car-front-fill fs-3 text-primary" aria-hidden="true"></i>
+                    </div>
+                    <p class="h2 mb-0">@Model.TotalVeiculos.ToString("N0", cultura)</p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="h-100 rounded-3 border border-success-subtle p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="fw-semibold text-success">Disponíveis</span>
+                        <i class="bi bi-check-circle-fill fs-3 text-success" aria-hidden="true"></i>
+                    </div>
+                    <p class="h2 mb-0">@Model.Disponiveis.ToString("N0", cultura)</p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="h-100 rounded-3 border border-warning-subtle p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="fw-semibold text-warning-emphasis">Reservados</span>
+                        <i class="bi bi-calendar-check-fill fs-3 text-warning" aria-hidden="true"></i>
+                    </div>
+                    <p class="h2 mb-0">@Model.Reservados.ToString("N0", cultura)</p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="h-100 rounded-3 border border-danger-subtle p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="fw-semibold text-danger">Em Manutenção</span>
+                        <i class="bi bi-wrench-adjustable-circle-fill fs-3 text-danger" aria-hidden="true"></i>
+                    </div>
+                    <p class="h2 mb-0">@Model.Manutencao.ToString("N0", cultura)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
