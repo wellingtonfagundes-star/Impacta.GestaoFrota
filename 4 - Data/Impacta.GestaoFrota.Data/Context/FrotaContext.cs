@@ -1,10 +1,11 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Impacta.GestaoFrota.Domain.Models;
 
 namespace Impacta.GestaoFrota.Data.Context;
 
-public class FrotaContext : DbContext
+public class FrotaContext : IdentityDbContext<ApplicationUser>
 {
     public FrotaContext(DbContextOptions<FrotaContext> options)
         : base(options)

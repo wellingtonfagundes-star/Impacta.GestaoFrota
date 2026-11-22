@@ -7,6 +7,14 @@
   --app-muted: #6d7c94;
   --app-surface: #ffffff;
   --app-background: #f3f7fc;
+  --bs-primary: #0b5ed7;
+  --bs-primary-rgb: 11, 94, 215;
+  --bs-secondary: #6d7c94;
+  --bs-secondary-rgb: 109, 124, 148;
+  --bs-info: #21c8d9;
+  --bs-info-rgb: 33, 200, 217;
+  --bs-body-bg: #f3f7fc;
+  --bs-body-color: #12233f;
 }
 
 html {
@@ -603,6 +611,110 @@ body {
 
   .crud-form-actions .btn {
     width: 100%;
+  }
+}
+
+.login-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.login-showcase {
+  position: relative;
+  padding: 2rem;
+  border: 1px solid rgba(11, 94, 215, .12);
+  border-radius: 22px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--app-navy) 0%, #10418a 58%, var(--app-blue) 100%);
+  box-shadow: 0 20px 40px rgba(7, 26, 58, .2);
+  overflow: hidden;
+}
+
+.login-showcase::before,
+.login-showcase::after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.login-showcase::before {
+  top: -50px;
+  right: -40px;
+  width: 190px;
+  height: 190px;
+  background: rgba(33, 200, 217, .22);
+}
+
+.login-showcase::after {
+  bottom: -70px;
+  left: -45px;
+  width: 220px;
+  height: 220px;
+  background: rgba(115, 87, 217, .28);
+}
+
+.login-kicker {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 .6rem;
+  color: rgba(255, 255, 255, .85);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.login-title {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 1rem;
+  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.login-subtitle {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.35rem;
+  color: rgba(255, 255, 255, .82);
+}
+
+.login-highlights {
+  position: relative;
+  z-index: 1;
+}
+
+.login-highlights li {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .45rem 0;
+  color: rgba(255, 255, 255, .92);
+}
+
+.login-highlights i {
+  color: var(--app-cyan);
+}
+
+.login-form-card {
+  padding-top: 1.45rem;
+}
+
+.login-form-card .alert {
+  border-radius: 10px;
+  font-size: .9rem;
+}
+
+.login-submit {
+  border-radius: 11px;
+  font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+  .login-showcase {
+    min-height: auto;
   }
 }
 

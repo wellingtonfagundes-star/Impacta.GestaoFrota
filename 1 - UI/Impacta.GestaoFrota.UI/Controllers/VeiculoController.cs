@@ -1,9 +1,12 @@
 ﻿using Impacta.GestaoFrota.Application.Interfaces;
 using Impacta.GestaoFrota.Application.ViewModel;
+using Impacta.GestaoFrota.UI.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Impacta.GestaoFrota.UI.Controllers
 {
+    [Authorize(Policy = PolicyNames.MenuOperacional)]
     public class VeiculoController : Controller
     {
         private readonly IVeiculoAppService _veiculoAppService;

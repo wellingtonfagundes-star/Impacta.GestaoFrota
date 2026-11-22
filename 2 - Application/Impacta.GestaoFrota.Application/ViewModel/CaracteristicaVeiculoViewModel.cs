@@ -17,9 +17,9 @@ public class CaracteristicaVeiculoViewModel
     [StringLength(500, ErrorMessage = "O comentário não pode ter mais de 500 caracteres.")]
     public string? Comentario { get; set; }
 
-    public DateOnly? DataCriacao { get; set; }
+    public DateTime? DataCriacao { get; set; }
 
-    public DateOnly? DataUltAlteracao { get; set; }
+    public DateTime? DataUltAlteracao { get; set; }
 
     // Para exibição no dropdown
     public string VeiculoDescricao { get; set; } = string.Empty;

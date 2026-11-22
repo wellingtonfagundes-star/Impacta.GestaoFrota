@@ -50,7 +50,7 @@
                                 <td>@reserva.Solicitante</td>
                                 <td>@reserva.Aprovador</td>
                                 <td>@(reserva.Data?.ToString("dd/MM/yyyy") ?? "—")</td>
-                                <td class="text-end">@(reserva.KmEstimada?.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR")) ?? "—")</td>
+                                <td class="text-end">@(reserva.KmEstimada?.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("pt-BR")) ?? "—")</td>
                             </tr>
                         }
                     </tbody>

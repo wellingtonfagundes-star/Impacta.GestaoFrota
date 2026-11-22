@@ -1,9 +1,12 @@
 ﻿using Impacta.GestaoFrota.Application.Interfaces;
 using Impacta.GestaoFrota.Application.ViewModel;
+using Impacta.GestaoFrota.UI.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Impacta.GestaoFrota.UI.Controllers;
 
+[Authorize(Policy = PolicyNames.AdminOnly)]
 public class TipoEventoController : Controller
 {
     private readonly ITipoEventoAppService _tipoEventoAppService;

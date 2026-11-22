@@ -1,8 +1,11 @@
 ﻿using Impacta.GestaoFrota.Application.Interfaces;
+using Impacta.GestaoFrota.UI.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Impacta.GestaoFrota.UI.Controllers
 {
+    [Authorize(Policy = PolicyNames.MenuOperacional)]
     public class ConsultasController : Controller
     {
         private readonly IConsultaAppService _consultaAppService;

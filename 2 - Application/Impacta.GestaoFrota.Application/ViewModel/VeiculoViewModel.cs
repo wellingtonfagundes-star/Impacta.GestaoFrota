@@ -36,7 +36,7 @@ public class VeiculoViewModel
     [StringLength(30, ErrorMessage = "A cor não pode ter mais de 30 caracteres.")]
     public string Cor { get; set; } = string.Empty;
 
-    public DateOnly? DataCompra { get; set; }
+    public DateTime? DataCompra { get; set; }
 
     [Range(0, int.MaxValue, ErrorMessage = "A quilometragem deve ser um valor positivo.")]
     public int KmAtual { get; set; }

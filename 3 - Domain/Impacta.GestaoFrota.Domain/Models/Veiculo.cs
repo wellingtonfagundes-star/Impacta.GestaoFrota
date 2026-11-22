@@ -23,7 +23,7 @@ public partial class Veiculo
 
     public string Cor { get; set; } = null!;
 
-    public DateOnly? DataCompra { get; set; }
+    public DateTime? DataCompra { get; set; }
 
     public int KmAtual { get; set; }
 

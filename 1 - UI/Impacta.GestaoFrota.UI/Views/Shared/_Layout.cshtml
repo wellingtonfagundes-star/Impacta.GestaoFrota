@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Impacta.GestaoFrota.UI.Security
+@{
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+    var isAdmin = User.IsInRole(RoleNames.Administrador);
+    var isFuncionario = User.IsInRole(RoleNames.Funcionario);
+    var isOperacional = isAdmin || isFuncionario;
+}
+
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
@@ -26,84 +34,114 @@
                 </button>
                 <div class="collapse navbar-collapse" id="mainNavigation">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                           @*<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-grid-1x2-fill me-1"></i>Início
-                            </a>*@ 
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="cadastrosMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-folder2-open me-1"></i>Cadastros
-                            </a>
-                            <ul class="dropdown-menu app-dropdown" aria-labelledby="cadastrosMenu">
-                                <li><h6 class="dropdown-header">Cadastros principais</h6></li>
-                                <li><a class="dropdown-item" asp-controller="Veiculo" asp-action="Index"><i class="bi bi-car-front-fill"></i>Veículos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Caracteristica" asp-action="Index"><i class="bi bi-list-check"></i>Características</a></li>
-                                <li><a class="dropdown-item" asp-controller="Funcionario" asp-action="Index"><i class="bi bi-person-badge-fill"></i>Funcionários</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cliente" asp-action="Index"><i class="bi bi-people-fill"></i>Clientes</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="parametrizacoesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-sliders me-1"></i>Parametrizações
-                            </a>
-                            <ul class="dropdown-menu app-dropdown" aria-labelledby="parametrizacoesMenu">
-                                <li><h6 class="dropdown-header">Configurações da frota</h6></li>
-                               @*  <li><a class="dropdown-item" asp-controller="Locais" asp-action="Index"><i class="bi bi-geo-alt-fill"></i>Locais</a></li> *@
-                                <li><a class="dropdown-item" asp-controller="TipoEvento" asp-action="Index"><i class="bi bi-calendar-event-fill"></i>Tipo Evento</a></li>
-                                <li><a class="dropdown-item" asp-controller="StatusFrota" asp-action="Index"><i class="bi bi-activity"></i>Status Frota</a></li>
-                                <li><a class="dropdown-item" asp-controller="CaracteristicaVeiculo" asp-action="Index"><i class="bi bi-diagram-3-fill"></i>Características Veículos</a></li>
-                               @*  <li><a class="dropdown-item" asp-controller="StatusVeiculo" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i>Status Veículos</a></li> *@
-                                <li><a class="dropdown-item" asp-controller="BeneficiarioVeiculo" asp-action="Index"><i class="bi bi-car-front-fill"></i>Beneficiários de Veículos</a></li>
-                                <li><a class="dropdown-item" asp-controller="LocalAssistencia" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i>Locais Assistência</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="movimentacoesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-sliders me-1"></i>Movimentações
-                            </a>
-                            <ul class="dropdown-menu app-dropdown" aria-labelledby="movimentacoesMenu">
-                       @*          <li><h6 class="dropdown-header">Configurações da frota</h6></li> *@
-                                <li><a class="dropdown-item" asp-controller="ReservaVeiculo" asp-action="Index"><i class="bi bi-calendar2-check-fill"></i>Reserva de Veículos</a></li>
-                                <li><a class="dropdown-item" asp-controller="HistoricoManutencao" asp-action="Index"><i class="bi bi-wrench-adjustable-circle-fill"></i>Histórico Manutenções</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="consultasMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-search me-1"></i>Consultas
-                            </a>
-                            <ul class="dropdown-menu app-dropdown" aria-labelledby="consultasMenu">
-                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="VeiculosDisponiveis"><i class="bi bi-car-front-fill"></i>Veículos Disponíveis</a></li>
-                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="VeiculosEmManutencao"><i class="bi bi-wrench-adjustable-circle-fill"></i>Veículos em Manutenção</a></li>
-                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="ReservasAprovadas"><i class="bi bi-calendar2-check-fill"></i>Reservas Aprovadas</a></li>
-                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="QuilometragemAtualFrota"><i class="bi bi-speedometer2"></i>Quilometragem Atual da Frota</a></li>
-                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="ValorTotalGastoPorTipoEvento"><i class="bi bi-cash-coin"></i>Valor Total Gasto por Tipo de Evento</a></li>
-                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="BeneficiariosVeiculos"><i class="bi bi-person-vcard-fill"></i>Beneficiários de Veículos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Consultas" asp-action="RankingClientesComMaisReservas"><i class="bi bi-trophy-fill"></i>Ranking de Clientes com Mais Reservas</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="relatoriosMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-file-earmark-bar-graph me-1"></i>Relatórios
-                            </a>
-                            <ul class="dropdown-menu app-dropdown" aria-labelledby="relatoriosMenu">
-                                <li><a class="dropdown-item" asp-controller="Relatorio" asp-action="QuantidadeVeiculosPorFabricante"><i class="bi bi-car-front-fill"></i>Quantidade de Veículos por Fabricante</a></li>
-                                <li><a class="dropdown-item" asp-controller="Relatorio" asp-action="UtilizacaoCompletaVeiculos"><i class="bi bi-clipboard-data"></i>Completo de Utilização dos Veículos</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dashboardsMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-speedometer2 me-1"></i>Dashboards
-                            </a>
-                            <ul class="dropdown-menu app-dropdown" aria-labelledby="dashboardsMenu">
-                                <li><h6 class="dropdown-header">Dashboard Gerencial da Frota</h6></li>
-                                <li><a class="dropdown-item" asp-controller="Dashboard" asp-action="ConsultaConsolidadaIndicadores"><i class="bi bi-clipboard-data"></i>Consulta consolidada para indicadores</a></li>
-                            </ul>
-                        </li>
+                        @if (isAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="cadastrosMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-folder2-open me-1"></i>Cadastros
+                                </a>
+                                <ul class="dropdown-menu app-dropdown" aria-labelledby="cadastrosMenu">
+                                    @if (isOperacional)
+                                    {
+                                        <li><h6 class="dropdown-header">Cadastros principais</h6></li>
+                                        <li><a class="dropdown-item" asp-controller="Veiculo" asp-action="Index"><i class="bi bi-car-front-fill"></i>Veículos</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Caracteristica" asp-action="Index"><i class="bi bi-list-check"></i>Características</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Cliente" asp-action="Index"><i class="bi bi-people-fill"></i>Clientes</a></li>
+                                    }
+                                    @if (isAdmin)
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Funcionario" asp-action="Index"><i class="bi bi-person-badge-fill"></i>Funcionários</a></li>
+                                    }
+                                    @if (isOperacional)
+                                    {
+                                        <li><h6 class="dropdown-header">Cadastros operacionais</h6></li>
+                                        <li><a class="dropdown-item" asp-controller="BeneficiarioVeiculo" asp-action="Index"><i class="bi bi-car-front-fill"></i>Beneficiários de Veículos</a></li>
+                                        <li><a class="dropdown-item" asp-controller="LocalAssistencia" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i>Locais Assistência</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="parametrizacoesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-sliders me-1"></i>Parametrizações
+                                </a>
+                                <ul class="dropdown-menu app-dropdown" aria-labelledby="parametrizacoesMenu">
+                                    <li><h6 class="dropdown-header">Configurações da frota</h6></li>
+                                    <li><a class="dropdown-item" asp-controller="TipoEvento" asp-action="Index"><i class="bi bi-calendar-event-fill"></i>Tipo Evento</a></li>
+                                    <li><a class="dropdown-item" asp-controller="StatusFrota" asp-action="Index"><i class="bi bi-activity"></i>Status Frota</a></li>
+                                    <li><a class="dropdown-item" asp-controller="CaracteristicaVeiculo" asp-action="Index"><i class="bi bi-diagram-3-fill"></i>Características Veículos</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (isOperacional)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="movimentacoesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-sliders me-1"></i>Movimentações
+                                </a>
+                                <ul class="dropdown-menu app-dropdown" aria-labelledby="movimentacoesMenu">
+                                    <li><a class="dropdown-item" asp-controller="ReservaVeiculo" asp-action="Index"><i class="bi bi-calendar2-check-fill"></i>Reserva de Veículos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="HistoricoManutencao" asp-action="Index"><i class="bi bi-wrench-adjustable-circle-fill"></i>Histórico Manutenções</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="consultasMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-search me-1"></i>Consultas
+                                </a>
+                                <ul class="dropdown-menu app-dropdown" aria-labelledby="consultasMenu">
+                                    <li><a class="dropdown-item" asp-controller="Consultas" asp-action="VeiculosDisponiveis"><i class="bi bi-car-front-fill"></i>Veículos Disponíveis</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Consultas" asp-action="VeiculosEmManutencao"><i class="bi bi-wrench-adjustable-circle-fill"></i>Veículos em Manutenção</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Consultas" asp-action="ReservasAprovadas"><i class="bi bi-calendar2-check-fill"></i>Reservas Aprovadas</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Consultas" asp-action="QuilometragemAtualFrota"><i class="bi bi-speedometer2"></i>Quilometragem Atual da Frota</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Consultas" asp-action="ValorTotalGastoPorTipoEvento"><i class="bi bi-cash-coin"></i>Valor Total Gasto por Tipo de Evento</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Consultas" asp-action="BeneficiariosVeiculos"><i class="bi bi-person-vcard-fill"></i>Beneficiários de Veículos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Consultas" asp-action="RankingClientesComMaisReservas"><i class="bi bi-trophy-fill"></i>Ranking de Clientes com Mais Reservas</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="relatoriosMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-file-earmark-bar-graph me-1"></i>Relatórios
+                                </a>
+                                <ul class="dropdown-menu app-dropdown" aria-labelledby="relatoriosMenu">
+                                    <li><a class="dropdown-item" asp-controller="Relatorio" asp-action="QuantidadeVeiculosPorFabricante"><i class="bi bi-car-front-fill"></i>Quantidade de Veículos por Fabricante</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Relatorio" asp-action="UtilizacaoCompletaVeiculos"><i class="bi bi-clipboard-data"></i>Completo de Utilização dos Veículos</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dashboardsMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-speedometer2 me-1"></i>Dashboards
+                                </a>
+                                <ul class="dropdown-menu app-dropdown" aria-labelledby="dashboardsMenu">
+                                    <li><h6 class="dropdown-header">Dashboard Gerencial da Frota</h6></li>
+                                    <li><a class="dropdown-item" asp-controller="Dashboard" asp-action="ConsultaConsolidadaIndicadores"><i class="bi bi-clipboard-data"></i>Consulta consolidada para indicadores</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
-                    <div class="navbar-status">
-                        <span class="status-dot"></span>
-                        <span>Operação online</span>
+                    <div class="navbar-status d-flex align-items-center gap-2">
+                        @if (isAuthenticated)
+                        {
+                            <span class="status-dot"></span>
+                            <span>@User.Identity?.Name</span>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="ms-2">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-light btn-sm" asp-controller="Account" asp-action="Login">Entrar</a>
+                        }
                     </div>
                 </div>
             </div>

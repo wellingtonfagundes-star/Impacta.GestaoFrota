@@ -3,7 +3,9 @@ using System.Text;
 using ClosedXML.Excel;
 using Impacta.GestaoFrota.Application.Interfaces;
 using Impacta.GestaoFrota.Application.ViewModel;
+using Impacta.GestaoFrota.UI.Security;
 using Impacta.GestaoFrota.UI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -11,6 +13,7 @@ using QuestPDF.Infrastructure;
 
 namespace Impacta.GestaoFrota.UI.Controllers;
 
+[Authorize(Policy = PolicyNames.MenuOperacional)]
 public class RelatorioController : Controller
 {
     private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

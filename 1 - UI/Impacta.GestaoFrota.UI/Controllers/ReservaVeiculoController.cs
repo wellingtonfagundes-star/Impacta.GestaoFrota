@@ -1,10 +1,13 @@
 ﻿using Impacta.GestaoFrota.Application.Interfaces;
 using Impacta.GestaoFrota.Application.ViewModel;
+using Impacta.GestaoFrota.UI.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Impacta.GestaoFrota.UI.Controllers
 {
+    [Authorize(Policy = PolicyNames.MenuOperacional)]
     public class ReservaVeiculoController : Controller
     {
         private readonly IReservaVeiculoAppService _appService;

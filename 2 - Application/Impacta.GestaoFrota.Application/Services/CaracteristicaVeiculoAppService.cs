@@ -67,8 +67,8 @@ public class CaracteristicaVeiculoAppService : ICaracteristicaVeiculoAppService
                 IdCaracteristica = viewModel.IdCaracteristica,
                 Valor = viewModel.Valor,
                 Comentario = viewModel.Comentario ?? string.Empty,
-                DataCriacao = DateOnly.FromDateTime(DateTime.Now),
-                DataUltAlteracao = DateOnly.FromDateTime(DateTime.Now)
+                DataCriacao = DateTime.Now,
+                DataUltAlteracao = DateTime.Now
             };
 
             _service.Adicionar(caracteristicaVeiculo);
@@ -94,7 +94,7 @@ public class CaracteristicaVeiculoAppService : ICaracteristicaVeiculoAppService
 
             caracteristicaVeiculo.Valor = viewModel.Valor;
             caracteristicaVeiculo.Comentario = viewModel.Comentario ?? string.Empty;
-            caracteristicaVeiculo.DataUltAlteracao = DateOnly.FromDateTime(DateTime.Now);
+            caracteristicaVeiculo.DataUltAlteracao = DateTime.Now;
 
             _service.Atualizar(caracteristicaVeiculo);
             _service.Salvar();

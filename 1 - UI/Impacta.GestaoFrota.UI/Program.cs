@@ -3,9 +3,11 @@ using Impacta.GestaoFrota.Application.Interfaces;
 using Impacta.GestaoFrota.Application.Services;
 using Impacta.GestaoFrota.Data.Context;
 using Impacta.GestaoFrota.Data.Repository;
+using Impacta.GestaoFrota.UI.Security;
 using Impacta.GestaoFrota.Domain.Interfaces.Repository;
 using Impacta.GestaoFrota.Domain.Interfaces.Services;
 using Impacta.GestaoFrota.Domain.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,33 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FrotaContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Frota")
         ?? throw new InvalidOperationException("A connection string 'Frota' não foi configurada.")));
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = false;
+    })
+    .AddEntityFrameworkStores<FrotaContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(PolicyNames.AdminOnly, policy =>
+        policy.RequireRole(RoleNames.Administrador));
+
+    options.AddPolicy(PolicyNames.MenuOperacional, policy =>
+        policy.RequireRole(RoleNames.Administrador, RoleNames.Funcionario));
+});
 builder.Services.AddAutoMapper(typeof(CaracteristicaProfile).Assembly);
 builder.Services.AddScoped<ICaracteristicaRepository, CaracteristicasRepository>();
 builder.Services.AddScoped<ICaracteristicaService, CaracteristicaService>();
@@ -55,6 +84,8 @@ builder.Services.AddScoped<IConsultaAppService, ConsultaAppService>();
 
 var app = builder.Build();
 
+await IdentityDataSeeder.SeedAsync(app.Services, app.Configuration);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -66,6 +97,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -73,6 +105,7 @@ app.MapStaticAssets();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
+    .RequireAuthorization()
     .WithStaticAssets();
 
 

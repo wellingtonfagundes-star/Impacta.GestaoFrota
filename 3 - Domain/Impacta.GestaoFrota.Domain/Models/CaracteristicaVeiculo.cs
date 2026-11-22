@@ -13,9 +13,9 @@ public partial class CaracteristicaVeiculo
 
     public string? Comentario { get; set; }
 
-    public DateOnly? DataCriacao { get; set; }
+    public DateTime? DataCriacao { get; set; }
 
-    public DateOnly? DataUltAlteracao { get; set; }
+    public DateTime? DataUltAlteracao { get; set; }
 
     public virtual Caracteristica IdCaracteristicaNavigation { get; set; } = null!;
 
